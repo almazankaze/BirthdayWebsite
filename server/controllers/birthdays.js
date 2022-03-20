@@ -75,8 +75,6 @@ export const addPost = async (req, res) => {
 
   const post = req.body;
 
-  console.log(post);
-
   const newPost = new BirthdayPost({
     ...post,
     createdAt: new Date().toISOString(),
