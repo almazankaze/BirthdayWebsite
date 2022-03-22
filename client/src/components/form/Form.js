@@ -24,29 +24,27 @@ const Form = () => {
   };
   return (
     <div className="form-container">
-      <div className="post-form">
-        <h2>Form</h2>
-        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-          <div className="input-container">
-            <input
-              type="text"
-              placeholder="Message"
-              className="post-input"
-              value={postData.message}
-              onChange={(e) =>
-                setPostData({ ...postData, message: e.target.value })
-              }
-            />
-            <span className={showError ? "input-error" : "hide-input-error"}>
-              Please enter a message to proceed
-            </span>
-          </div>
+      <h1>Form</h1>
+      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+        <div className="input-container">
+          <input
+            type="text"
+            placeholder="Message"
+            className="input-box"
+            value={postData.message}
+            onChange={(e) =>
+              setPostData({ ...postData, message: e.target.value })
+            }
+          />
+          <span className={showError ? "input-error" : "hide-input-error"}>
+            Please enter a message to proceed
+          </span>
+        </div>
 
-          <button className="btn form-btn" type="submit">
-            Submit
-          </button>
-        </form>
-      </div>
+        <button className="btn form-btn" type="submit">
+          Submit
+        </button>
+      </form>
     </div>
   );
 };
