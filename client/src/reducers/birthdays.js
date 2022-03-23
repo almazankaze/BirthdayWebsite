@@ -1,6 +1,6 @@
 import { FETCH_BIRTHDAYS, CREATE_BIRTHDAY } from "../constants/actionTypes";
 
-export default (posts = [], action) => {
+const birthdays = (posts = [], action) => {
   switch (action.type) {
     case FETCH_BIRTHDAYS:
       return action.payload;
@@ -10,3 +10,5 @@ export default (posts = [], action) => {
       return posts;
   }
 };
+
+export default birthdays;

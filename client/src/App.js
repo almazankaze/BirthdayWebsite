@@ -1,16 +1,22 @@
-import React from "react";
-import Form from "./components/form/Form";
-import SignUp from "./components/form/SignUp";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { getBirthdays } from "./actions/birthdays";
+import CreateBirthday from "./components/form/CreateBirthday";
+import Home from "./pages/Home";
 import NavBar from "./components/navbar/NavBar";
-import PostsContainer from "./components/posts/PostsContainer";
 
 const App = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getBirthdays());
+  }, [dispatch]);
+
   return (
     <div>
       <NavBar />
-      <Form />
-      <PostsContainer />
-      <SignUp />
+      <CreateBirthday />
+      <Home />
     </div>
   );
 };
