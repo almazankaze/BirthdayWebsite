@@ -15,7 +15,6 @@ const App = () => {
   return (
     <div>
       <NavBar />
-      <CreateBirthday />
       <Home />
     </div>
   );
