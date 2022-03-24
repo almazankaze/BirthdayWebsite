@@ -4,6 +4,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 
 import router from "./routes/birthdays.js";
+import exampleRouter from "./routes/exampleBirthdays.js";
 
 const app = express();
 dotenv.config();
@@ -13,6 +14,7 @@ app.use(express.urlencoded({ limit: "30mb", extended: true }));
 app.use(cors());
 
 app.use("/birthdays", router);
+app.use("/homebirthdays", exampleRouter);
 
 const PORT = process.env.PORT || 5000;
 

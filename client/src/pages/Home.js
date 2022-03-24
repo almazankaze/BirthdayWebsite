@@ -7,6 +7,7 @@ import "./home.css";
 
 const Home = () => {
   const birthdays = useSelector((state) => state.birthdays);
+  console.log(birthdays);
   return (
     <div className="home">
       <section className="hero-section">
@@ -27,6 +28,15 @@ const Home = () => {
       </section>
       <section className="birthdays-section">
         <h2>Check Out Some Birthdays</h2>
+        {!birthdays ? (
+          <LoadingCircle />
+        ) : (
+          <div>
+            {birthdays.map((birthday) => (
+              <Birthday key={birthday._id} birthday={birthday} />
+            ))}
+          </div>
+        )}
       </section>
       <footer>
         <div className="container">

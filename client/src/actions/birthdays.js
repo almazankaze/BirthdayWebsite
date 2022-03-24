@@ -12,6 +12,16 @@ export const getBirthdays = () => async (dispatch) => {
   }
 };
 
+export const getExBirthdays = () => async (dispatch) => {
+  try {
+    const { data } = await api.fetchExBirthdays();
+
+    dispatch({ type: FETCH_BIRTHDAYS, payload: data });
+  } catch (e) {
+    console.log("could not get birthdays");
+  }
+};
+
 export const createBirthday = (birthday) => async (dispatch) => {
   try {
     const { data } = await api.createBirthday(birthday);
