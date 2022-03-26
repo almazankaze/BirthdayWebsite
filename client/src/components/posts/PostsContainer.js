@@ -1,14 +1,17 @@
 import React from "react";
+import LoadingCircle from "../loadingCircle/LoadingCircle";
 import Post from "./Post";
 import "./posts.css";
 
-const PostsContainer = () => {
-  return (
+const PostsContainer = ({ posts, birthdayId }) => {
+  return !posts ? (
+    <LoadingCircle />
+  ) : (
     <div className="cards-container">
       <div className="cards">
-        <Post />
-        <Post />
-        <Post />
+        {posts.map((post) => (
+          <Post key={post._id} post={post} birthdayId={birthdayId} />
+        ))}
       </div>
     </div>
   );

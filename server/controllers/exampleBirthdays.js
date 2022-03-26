@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import BirthdayPost from "../models/birthdayPost.js";
 import ExampleBirthday from "../models/exampleBirthday.js";
 
 // get all birthdays from database
@@ -35,6 +36,34 @@ export const createExample = async (req, res) => {
     await newBirthday.save();
 
     res.status(201).json(newBirthday);
+  } catch (e) {
+    res.status(409).json({ message: e.message });
+  }
+};
+
+// add a post to birthday
+export const addPost = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No birthday with that id exists");
+
+  const post = req.body;
+
+  const newPost = new BirthdayPost({
+    ...post,
+    creator: "John",
+    createdAt: new Date().toISOString(),
+  });
+
+  try {
+    await ExampleBirthday.findByIdAndUpdate(
+      id,
+      { $push: { posts: newPost } },
+      { new: true }
+    );
+
+    res.status(201).json(newPost);
   } catch (e) {
     res.status(409).json({ message: e.message });
   }

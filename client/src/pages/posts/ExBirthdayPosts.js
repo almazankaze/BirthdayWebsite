@@ -5,9 +5,10 @@ import { useSelector } from "react-redux";
 import { getExBirthday } from "../../actions/birthdays";
 import LoadingCircle from "../../components/loadingCircle/LoadingCircle";
 import PostsContainer from "../../components/posts/PostsContainer";
-import PostForm from "../../components/form/PostForm";
+import ExPostForm from "../../components/form/ExPostForm";
+import "./posts.css";
 
-const BirthdayPosts = () => {
+const ExBirthdayPosts = () => {
   const dispatch = useDispatch();
   const { birthday_id } = useParams();
 
@@ -19,12 +20,16 @@ const BirthdayPosts = () => {
   return !birthday ? (
     <LoadingCircle />
   ) : (
-    <div>
-      <h1>Happy Birthday {birthday.birthdayName}</h1>
-      <PostsContainer />
-      <PostForm />
+    <div className="birthday-posts">
+      <section className="form-title-container">
+        <ExPostForm birthdayId={birthday_id} />
+        <h1 className="birthday-title">
+          Happy Birthday {birthday.birthdayName}
+        </h1>
+      </section>
+      <PostsContainer posts={birthday.posts} birthdayId={birthday_id} />
     </div>
   );
 };
 
-export default BirthdayPosts;
+export default ExBirthdayPosts;

@@ -4,7 +4,7 @@ import Home from "./pages/Home";
 import NavBar from "./components/navbar/NavBar";
 import NotFound from "./pages/Errors/NotFound";
 import Auth from "./pages/auth/Auth";
-import BirthdayPosts from "./pages/posts/BirthdayPosts";
+import ExBirthdayPosts from "./pages/posts/ExBirthdayPosts";
 
 const App = () => {
   return (
@@ -15,8 +15,8 @@ const App = () => {
           <Route path="/" element={<Home />}></Route>
           <Route path="/auth" element={<Auth />}></Route>
           <Route
-            path="/birthday/:birthday_id"
-            element={<BirthdayPosts />}
+            path="/exbirthday/:birthday_id"
+            element={<ExBirthdayPosts />}
           ></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

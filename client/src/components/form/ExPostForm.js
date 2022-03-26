@@ -1,18 +1,23 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addExPost } from "../../actions/posts";
 
 import "./form.css";
 
-const PostForm = () => {
+const ExPostForm = ({ birthdayId }) => {
   const [showError, setShowError] = useState(false);
   const [postData, setPostData] = useState({
     message: "",
   });
+
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (postData.message.trim() === "") setShowError(true);
     else {
+      dispatch(addExPost(birthdayId, { ...postData }));
       setShowError(false);
       clear();
     }
@@ -49,4 +54,4 @@ const PostForm = () => {
   );
 };
 
-export default PostForm;
+export default ExPostForm;
