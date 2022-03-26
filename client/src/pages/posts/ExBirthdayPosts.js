@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getExBirthday } from "../../actions/birthdays";
 import LoadingCircle from "../../components/loadingCircle/LoadingCircle";
-import PostsContainer from "../../components/posts/PostsContainer";
+import ExPostsContainer from "../../components/posts/ExPostsContainer";
 import ExPostForm from "../../components/form/ExPostForm";
 import "./posts.css";
 
@@ -27,7 +27,7 @@ const ExBirthdayPosts = () => {
           Happy Birthday {birthday.birthdayName}
         </h1>
       </section>
-      <PostsContainer posts={birthday.posts} birthdayId={birthday_id} />
+      <ExPostsContainer posts={birthday.posts} />
     </div>
   );
 };

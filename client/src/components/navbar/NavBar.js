@@ -11,6 +11,7 @@ import "./navbar.css";
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const url = "";
+  const user = null;
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
@@ -49,63 +50,76 @@ const NavBar = () => {
             <a href={url}>Communities</a>
           </li>
           <li className="mobile-nav-link">
-            <a href={url}>Sign Out</a>
+            {user ? <a>Sign Out</a> : <NavLink to="auth">Sign In</NavLink>}
           </li>
         </ul>
       </div>
 
-      <ul className="right-nav">
-        <li>
-          <IconButton aria-label="notices">
-            <NotificationsIcon
-              sx={{
-                fontSize: 24,
-                color: "white",
-              }}
-            />
-          </IconButton>
-        </li>
-        <li>
-          <IconButton aria-label="notices">
-            <AddReactionIcon
-              sx={{
-                fontSize: 24,
-                color: "white",
-              }}
-            />
-          </IconButton>
-        </li>
+      {user ? (
+        <ul className="right-nav">
+          <li>
+            <IconButton aria-label="notices">
+              <NotificationsIcon
+                sx={{
+                  fontSize: 24,
+                  color: "white",
+                }}
+              />
+            </IconButton>
+          </li>
+          <li>
+            <IconButton aria-label="add">
+              <AddReactionIcon
+                sx={{
+                  fontSize: 24,
+                  color: "white",
+                }}
+              />
+            </IconButton>
+          </li>
 
-        <li className="drop-down">
-          <IconButton aria-label="notices">
-            <AccountCircleIcon
-              sx={{
-                fontSize: 24,
-                color: "white",
-              }}
-            />
-          </IconButton>
-          <div className="sub-menu-box">
-            <ul className="sub-menu">
-              <li>
-                <a href={url}>Profile</a>
-              </li>
-              <li>
-                <a href={url}>BirthdayWishes</a>
-              </li>
-              <li>
-                <a href={url}>Communities</a>
-              </li>
-            </ul>
-            <div className="submenu-border"></div>
-            <div className="sub-menu">
-              <div className="single-link">
-                <a href={url}>Sign out</a>
+          <li className="drop-down">
+            {user.result.imageUrl ? (
+              <img src={user?.result.imageUrl} alt={user?.result.name} />
+            ) : (
+              <IconButton aria-label="profile">
+                <AccountCircleIcon
+                  sx={{
+                    fontSize: 24,
+                    color: "white",
+                  }}
+                />
+              </IconButton>
+            )}
+
+            <div className="sub-menu-box">
+              <ul className="sub-menu">
+                <li>
+                  <a href={url}>Profile</a>
+                </li>
+                <li>
+                  <a href={url}>BirthdayWishes</a>
+                </li>
+                <li>
+                  <a href={url}>Communities</a>
+                </li>
+              </ul>
+              <div className="submenu-border"></div>
+              <div className="sub-menu">
+                <div className="single-link">
+                  <a>Sign out</a>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      ) : (
+        <div className="right-nav">
+          <NavLink to="auth">
+            <h3>Sign In</h3>
+          </NavLink>
+        </div>
+      )}
     </nav>
   );
 };

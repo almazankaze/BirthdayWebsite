@@ -61,6 +61,9 @@
 
 .form-link {
   text-decoration: none;
+  border: none;
+  cursor: pointer;
+  background: none;
   color: #1c8adb;
 }
 
