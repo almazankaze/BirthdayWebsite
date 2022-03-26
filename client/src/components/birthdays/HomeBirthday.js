@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 
 const HomeBirthday = ({ birthday, image }) => {
   return (
@@ -7,7 +8,9 @@ const HomeBirthday = ({ birthday, image }) => {
         <img src={image} alt="home-card" />
         <h2 className="home-card-name">{birthday.birthdayName}</h2>
 
-        <button className="btn">Try Out</button>
+        <NavLink to={`/birthday/${birthday._id}`}>
+          <button className="btn">Try Out</button>
+        </NavLink>
       </div>
     </div>
   );

@@ -6,6 +6,9 @@ a {
 }
 
 .main-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -135,12 +138,12 @@ a {
     left: 0;
     background: #24292f;
     width: 60%;
-    height: 100%;
     border-right: #ccc 1px solid;
+    border-bottom: #ccc 1px solid;
     padding: 1.875rem;
     transform: translateX(-500px);
     transition: transform 0.5s ease-in-out;
-    z-index: 4;
+    z-index: 104;
   }
 
   .middle-nav-menu {

@@ -1,4 +1,8 @@
-import { CREATE_BIRTHDAY, FETCH_BIRTHDAYS } from "../constants/actionTypes";
+import {
+  CREATE_BIRTHDAY,
+  FETCH_BIRTHDAYS,
+  GET_BIRTHDAY,
+} from "../constants/actionTypes";
 
 import * as api from "../api/index";
 
@@ -19,6 +23,16 @@ export const getExBirthdays = () => async (dispatch) => {
     dispatch({ type: FETCH_BIRTHDAYS, payload: data });
   } catch (e) {
     console.log("could not get birthdays");
+  }
+};
+
+export const getExBirthday = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.fetchExBirthday(id);
+
+    dispatch({ type: GET_BIRTHDAY, payload: data });
+  } catch (e) {
+    console.log("could not get birthday");
   }
 };
 

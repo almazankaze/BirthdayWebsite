@@ -8,3 +8,4 @@ export const createBirthday = (newBirthday) => axios.post(url, newBirthday);
 
 // home routes
 export const fetchExBirthdays = () => axios.get(homeUrl);
+export const fetchExBirthday = (id) => axios.get(`${homeUrl}/${id}`);

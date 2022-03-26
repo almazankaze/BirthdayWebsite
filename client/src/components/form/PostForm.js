@@ -2,7 +2,7 @@ import React, { useState } from "react";
 
 import "./form.css";
 
-const Form = () => {
+const PostForm = () => {
   const [showError, setShowError] = useState(false);
   const [postData, setPostData] = useState({
     message: "",
@@ -24,7 +24,7 @@ const Form = () => {
   };
   return (
     <div className="form-container">
-      <h1>Form</h1>
+      <h1>Add message</h1>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div className="input-container">
           <input
@@ -49,4 +49,4 @@ const Form = () => {
   );
 };
 
-export default Form;
+export default PostForm;

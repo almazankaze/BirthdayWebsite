@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import "./navbar.css";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import IconButton from "@mui/material/IconButton";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import MenuIcon from "@mui/icons-material/Menu";
+import "./navbar.css";
 
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
@@ -22,12 +23,12 @@ const NavBar = () => {
       </div>
 
       <div className="left-nav">
-        <div className="nav-logo">
+        <NavLink to="/" className="nav-logo">
           <IconButton aria-label="home">
             <CelebrationIcon sx={{ fontSize: 32, color: "white" }} />
           </IconButton>
           <h1>BirthdayWish</h1>
-        </div>
+        </NavLink>
       </div>
 
       <div className={showMenu ? "middle-nav show" : "middle-nav"}>

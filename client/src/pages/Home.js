@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { getExBirthdays } from "../actions/birthdays";
 import HomeBirthday from "../components/birthdays/HomeBirthday";
 import LoadingCircle from "../components/loadingCircle/LoadingCircle";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -12,11 +14,17 @@ import kirbyImg from "../images/Kirby.jpg";
 import vergilImg from "../images/vergil.jpg";
 import lucinaImg from "../images/lucina.jpg";
 import "./home.css";
+import { NavLink } from "react-router-dom";
 
 const Home = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getExBirthdays());
+  }, [dispatch]);
   const birthdayImgs = [vergilImg, hutaoImg, lucinaImg, kirbyImg];
   const birthdays = useSelector((state) => state.birthdays);
-  console.log(birthdays);
+
   return (
     <div className="home">
       <section className="hero-section">
@@ -29,9 +37,11 @@ const Home = () => {
             someone a happy birthday! Send them the link and watch them feel
             special on their special day!
           </p>
-          <button className="btn" type="button">
-            Start
-          </button>
+          <NavLink to="/auth">
+            <button className="btn" type="button">
+              Start
+            </button>
+          </NavLink>
         </div>
         <div className="hero-img-container">
           <img src={heroImg} alt="Birthday celebration"></img>
