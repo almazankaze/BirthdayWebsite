@@ -2,17 +2,22 @@ import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { signin, signup } from "../../actions/auth";
+import LoadingCircle from "../loadingCircle/LoadingCircle";
 import "./form.css";
+
+const initFormState = {
+  email: "",
+  name: "",
+  password: "",
+  confirmPassword: "",
+};
 
 const SignUp = () => {
   const [showError, setShowError] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
-  const [formData, setFormData] = useState({
-    email: "",
-    name: "",
-    password: "",
-    confirmPassword: "",
-  });
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState(initFormState);
 
   const GOOGLE = process.env.REACT_APP_GOOGLE;
   const dispatch = useDispatch();
@@ -23,17 +28,32 @@ const SignUp = () => {
 
     if (formData.email.trim() === "") setShowError(true);
     else {
+      setLoading(true);
+      if (isSignup) {
+        dispatch(signup(formData)).then((success) => {
+          setLoading(false);
+          if (success) {
+            navigate("/");
+          } else {
+            console.log("error");
+          }
+        });
+      } else {
+        dispatch(signin(formData)).then((success) => {
+          setLoading(false);
+          if (success) {
+            navigate("/");
+          } else {
+            console.log("error");
+          }
+        });
+      }
       setShowError(false);
       clear();
     }
   };
   const clear = () => {
-    setFormData({
-      email: "",
-      name: "",
-      password: "",
-      confirmPassword: "",
-    });
+    setFormData(initFormState);
   };
 
   const switchMode = () => {
@@ -59,7 +79,9 @@ const SignUp = () => {
   const googleFailure = () => {
     console.log("fail");
   };
-  return (
+  return loading ? (
+    <LoadingCircle />
+  ) : (
     <div className="form-container">
       <h1>{isSignup ? "Sign Up" : "Sign In"}</h1>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -124,7 +146,11 @@ const SignUp = () => {
           </>
         )}
 
-        <button type="submit" className="signup-form-btn signup-btn">
+        <button
+          type="submit"
+          className="signup-form-btn signup-btn"
+          onClick={handleSubmit}
+        >
           {isSignup ? "Sign Up" : "Sign In"}
         </button>
         <hr className="form-divider" />

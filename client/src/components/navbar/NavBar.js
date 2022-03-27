@@ -162,9 +162,9 @@ const NavBar = () => {
                 </li>
               </ul>
               <div className="submenu-border"></div>
-              <div className="sub-menu">
+              <div className="sub-menu" onClick={logout}>
                 <div className="single-link">
-                  <button type="button" className="nav-link" onClick={logout}>
+                  <button type="button" className="nav-link">
                     Sign Out
                   </button>
                 </div>

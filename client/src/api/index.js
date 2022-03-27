@@ -1,12 +1,15 @@
 import axios from "axios";
 
-const url = "http://localhost:5000/birthdays";
-const homeUrl = "http://localhost:5000/homebirthdays";
+const API = axios.create({ baseURL: "http://localhost:5000" });
 
-export const fetchBirthdays = () => axios.get(url);
-export const createBirthday = (newBirthday) => axios.post(url, newBirthday);
+export const fetchBirthdays = () => API.get("/birthdays");
+export const createBirthday = (newBirthday) =>
+  API.post("/birthdays", newBirthday);
 
 // home routes
-export const fetchExBirthdays = () => axios.get(homeUrl);
-export const fetchExBirthday = (id) => axios.get(`${homeUrl}/${id}`);
-export const addExPost = (id, post) => axios.patch(`${homeUrl}/${id}`, post);
+export const fetchExBirthdays = () => API.get("/homebirthdays");
+export const fetchExBirthday = (id) => API.get(`/homebirthdays/${id}`);
+export const addExPost = (id, post) => API.patch(`/homebirthdays/${id}`, post);
+
+export const signIn = (formData) => API.post("/user/signin", formData);
+export const signUp = (formData) => API.post("/user/signup", formData);

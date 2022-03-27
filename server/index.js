@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import router from "./routes/birthdays.js";
 import exampleRouter from "./routes/exampleBirthdays.js";
+import userRoutes from "./routes/users.js";
 
 const app = express();
 dotenv.config();
@@ -15,6 +16,7 @@ app.use(cors());
 
 app.use("/birthdays", router);
 app.use("/homebirthdays", exampleRouter);
+app.use("/user", userRoutes);
 
 const PORT = process.env.PORT || 5000;
 
