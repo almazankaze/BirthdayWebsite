@@ -28,7 +28,7 @@ a {
   padding: 0 0.625rem;
 }
 
-.main-nav .middle-nav li a:hover {
+.main-nav .middle-nav li .mobile-nav-link:hover {
   color: #afb8c1;
 }
 
@@ -46,17 +46,34 @@ a {
   display: flex;
 }
 
-.mobile-nav-link {
+.mobile-nav-menu li {
   display: none;
 }
 
-.mobile-nav-link i {
-  margin-right: 0.25rem;
+.mobile-nav-link {
+  text-decoration: none;
+  border: none;
+  background: none;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .right-nav li {
   position: relative;
   padding: 0.25rem !important;
+}
+
+.profile-icon {
+  display: flex;
+  justify-content: center;
+  padding: 0 0.625rem;
+}
+
+.profile-icon img {
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
 }
 
 .drop-down .sub-menu-box {
@@ -89,8 +106,26 @@ a {
   cursor: pointer;
 }
 
-.sub-menu li:hover a {
+.sub-menu li .nav-link {
+  text-decoration: none;
+  border: none;
+  background: none;
+  color: #24292f;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.sub-menu li:hover .nav-link {
   color: #fff;
+}
+
+.sub-menu .single-link .nav-link {
+  text-decoration: none;
+  border: none;
+  background: none;
+  color: #24292f;
+  font-weight: 600;
+  cursor: pointer;
 }
 
 .sub-menu .single-link {
@@ -102,12 +137,8 @@ a {
   cursor: pointer;
 }
 
-.sub-menu .single-link:hover a {
+.sub-menu .single-link:hover .nav-link {
   color: #fff;
-}
-
-.sub-menu a {
-  color: #24292f;
 }
 
 .menu-btn {
@@ -146,13 +177,26 @@ a {
     z-index: 104;
   }
 
+  .main-nav .middle-nav .profile-icon {
+    align-self: center;
+  }
+
   .middle-nav-menu {
     display: flex;
     flex-direction: column;
   }
 
+  .profile-icon {
+    margin-bottom: 1rem;
+  }
+
+  .profile-icon img {
+    height: 64px;
+    width: 64px;
+  }
+
   .middle-nav .middle-nav-menu > li {
-    padding: 10px;
+    padding: 15px;
     border-bottom: #ccc solid 1px;
   }
 

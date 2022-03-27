@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { GoogleLogin } from "react-google-login";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import "./form.css";
 
 const SignUp = () => {
@@ -11,6 +13,10 @@ const SignUp = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const GOOGLE = process.env.REACT_APP_GOOGLE;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -38,9 +44,21 @@ const SignUp = () => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const googleSuccess = (res) => {};
+  const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
 
-  const googleFailure = () => {};
+    try {
+      dispatch({ type: "AUTH", data: { result, token } });
+      navigate("/");
+    } catch (e) {
+      console.log("fail");
+    }
+  };
+
+  const googleFailure = () => {
+    console.log("fail");
+  };
   return (
     <div className="form-container">
       <h1>{isSignup ? "Sign Up" : "Sign In"}</h1>
@@ -113,7 +131,7 @@ const SignUp = () => {
         <p className="or">OR</p>
 
         <GoogleLogin
-          clientId="GOOGLE ID"
+          clientId={GOOGLE}
           render={(renderProps) => (
             <button
               type="button"

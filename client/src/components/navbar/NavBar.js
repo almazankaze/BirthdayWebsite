@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import IconButton from "@mui/material/IconButton";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -10,10 +11,26 @@ import "./navbar.css";
 
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
-  const url = "";
-  const user = null;
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = user?.token;
+
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
+
   const toggleMenu = () => {
     setShowMenu(!showMenu);
+  };
+
+  const logout = () => {
+    dispatch({ type: "LOGOUT" });
+    navigate("/auth");
+    setUser(null);
+    setShowMenu(false);
   };
   return (
     <nav className="main-nav">
@@ -33,29 +50,61 @@ const NavBar = () => {
       </div>
 
       <div className={showMenu ? "middle-nav show" : "middle-nav"}>
+        {user?.result ? (
+          <div className="profile-icon">
+            {user.result.imageUrl ? (
+              <img src={user?.result.imageUrl} alt={user?.result.name} />
+            ) : (
+              <h2>{user?.result.name}</h2>
+            )}
+          </div>
+        ) : (
+          <></>
+        )}
+
         <ul className="middle-nav-menu">
-          <li className="mobile-nav-link">
-            <a href={url}>Notices</a>
+          <li>
+            <button className="mobile-nav-link" type="button">
+              Notices
+            </button>
           </li>
-          <li className="mobile-nav-link">
-            <a href={url}>Create</a>
+          <li>
+            <button className="mobile-nav-link" type="button">
+              Create
+            </button>
           </li>
-          <li className="mobile-nav-link">
-            <a href={url}>Profile</a>
+          <li>
+            <button className="mobile-nav-link" type="button">
+              Profile
+            </button>
           </li>
-          <li className="mobile-nav-link">
-            <a href={url}>BirthdayWishes</a>
+          <li>
+            <button className="mobile-nav-link" type="button">
+              BirthdayWishes
+            </button>
           </li>
-          <li className="mobile-nav-link">
-            <a href={url}>Communities</a>
+          <li>
+            <button className="mobile-nav-link" type="button">
+              Communities
+            </button>
           </li>
-          <li className="mobile-nav-link">
-            {user ? <a>Sign Out</a> : <NavLink to="auth">Sign In</NavLink>}
+          <li>
+            {user?.result ? (
+              <button
+                type="button"
+                className="mobile-nav-link"
+                onClick={logout}
+              >
+                Sign Out
+              </button>
+            ) : (
+              <NavLink to="auth">Sign In</NavLink>
+            )}
           </li>
         </ul>
       </div>
 
-      {user ? (
+      {user?.result ? (
         <ul className="right-nav">
           <li>
             <IconButton aria-label="notices">
@@ -80,7 +129,9 @@ const NavBar = () => {
 
           <li className="drop-down">
             {user.result.imageUrl ? (
-              <img src={user?.result.imageUrl} alt={user?.result.name} />
+              <div className="profile-icon">
+                <img src={user?.result.imageUrl} alt={user?.result.name} />
+              </div>
             ) : (
               <IconButton aria-label="profile">
                 <AccountCircleIcon
@@ -95,19 +146,27 @@ const NavBar = () => {
             <div className="sub-menu-box">
               <ul className="sub-menu">
                 <li>
-                  <a href={url}>Profile</a>
+                  <button className="nav-link" type="button">
+                    Profile
+                  </button>
                 </li>
                 <li>
-                  <a href={url}>BirthdayWishes</a>
+                  <button className="nav-link" type="button">
+                    BirthdayWishes
+                  </button>
                 </li>
                 <li>
-                  <a href={url}>Communities</a>
+                  <button className="nav-link" type="button">
+                    Communities
+                  </button>
                 </li>
               </ul>
               <div className="submenu-border"></div>
               <div className="sub-menu">
                 <div className="single-link">
-                  <a>Sign out</a>
+                  <button type="button" className="nav-link" onClick={logout}>
+                    Sign Out
+                  </button>
                 </div>
               </div>
             </div>
