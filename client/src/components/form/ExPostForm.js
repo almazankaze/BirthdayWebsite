@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import { addExPost } from "../../actions/posts";
 
 import "./form.css";
@@ -11,13 +11,16 @@ const ExPostForm = ({ birthdayId }) => {
   });
 
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (postData.message.trim() === "") setShowError(true);
     else {
-      dispatch(addExPost(birthdayId, { ...postData }));
+      dispatch(
+        addExPost(birthdayId, { ...postData, posterName: user?.result?.name })
+      );
       setShowError(false);
       clear();
     }
@@ -27,6 +30,14 @@ const ExPostForm = ({ birthdayId }) => {
       message: "",
     });
   };
+
+  if (!user?.result?.name) {
+    return (
+      <div className="form-container">
+        <h2>Please sign in to start posting.</h2>
+      </div>
+    );
+  }
   return (
     <div className="form-container">
       <h1>Add message</h1>

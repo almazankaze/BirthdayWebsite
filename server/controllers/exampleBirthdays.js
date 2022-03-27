@@ -52,7 +52,7 @@ export const addPost = async (req, res) => {
 
   const newPost = new BirthdayPost({
     ...post,
-    creator: "John",
+    creator: req.userId,
     createdAt: new Date().toISOString(),
   });
 
@@ -66,5 +66,24 @@ export const addPost = async (req, res) => {
     res.status(201).json(newPost);
   } catch (e) {
     res.status(409).json({ message: e.message });
+  }
+};
+
+// delete one post from a birthday
+export const deletePost = async (req, res) => {
+  const { id, post_id } = req.params;
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No birthday with that id exists");
+
+  try {
+    const updatedBirthday = await ExampleBirthday.findByIdAndUpdate(
+      id,
+      { $pull: { posts: { _id: post_id } } },
+      { new: true }
+    );
+
+    res.json(updatedBirthday);
+  } catch (e) {
+    res.json({ message: e.message });
   }
 };

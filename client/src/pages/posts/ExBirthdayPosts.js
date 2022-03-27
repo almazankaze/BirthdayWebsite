@@ -27,7 +27,7 @@ const ExBirthdayPosts = () => {
           Happy Birthday {birthday.birthdayName}
         </h1>
       </section>
-      <ExPostsContainer posts={birthday.posts} />
+      <ExPostsContainer posts={birthday.posts} birthdayId={birthday_id} />
     </div>
   );
 };

@@ -5,13 +5,17 @@ import {
   createExample,
   getOneExample,
   addPost,
+  deletePost,
 } from "../controllers/exampleBirthdays.js";
+
+import auth from "../middleware/auth.js";
 
 const exampleRouter = express.Router();
 
 exampleRouter.get("/", getExamples);
 exampleRouter.get("/:id", getOneExample);
 exampleRouter.post("/", createExample);
-exampleRouter.patch("/:id", addPost);
+exampleRouter.patch("/:id", auth, addPost);
+exampleRouter.delete("/:id/post/:post_id", auth, deletePost);
 
 export default exampleRouter;

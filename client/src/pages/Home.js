@@ -22,8 +22,8 @@ const Home = () => {
   useEffect(() => {
     dispatch(getExBirthdays());
   }, [dispatch]);
-  const birthdayImgs = [vergilImg, hutaoImg, lucinaImg, kirbyImg];
-  const birthdays = useSelector((state) => state.birthdays);
+  const birthdayImgs = [vergilImg, lucinaImg, kirbyImg, hutaoImg];
+  const birthdays = useSelector((state) => state.homeBirthdays);
 
   return (
     <div className="home">

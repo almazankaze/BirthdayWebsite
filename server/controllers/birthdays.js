@@ -33,7 +33,7 @@ export const getOneBirthday = async (req, res) => {
 export const createBirthday = async (req, res) => {
   const birthdayInfo = req.body;
 
-  const newBirthday = new Birthday(birthdayInfo);
+  const newBirthday = new Birthday({ ...birthdayInfo, creator: req.userId });
   try {
     await newBirthday.save();
 
@@ -77,6 +77,7 @@ export const addPost = async (req, res) => {
 
   const newPost = new BirthdayPost({
     ...post,
+    creator: req.userId,
     createdAt: new Date().toISOString(),
   });
 
