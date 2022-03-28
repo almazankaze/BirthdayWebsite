@@ -87,3 +87,25 @@ export const deletePost = async (req, res) => {
     res.json({ message: e.message });
   }
 };
+
+// update one post from a birthday
+export const updatePost = async (req, res) => {
+  const { id, post_id } = req.params;
+
+  const updatedPost = req.body;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No birthday with that id exists");
+
+  try {
+    const updatedBirthday = await ExampleBirthday.findOneAndUpdate(
+      { _id: id, "posts._id": post_id },
+      { $set: { "posts.$.message": updatedPost.message } },
+      { new: true }
+    );
+
+    res.json(updatedBirthday);
+  } catch (e) {
+    res.json({ message: e.message });
+  }
+};

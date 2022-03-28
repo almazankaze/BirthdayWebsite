@@ -6,6 +6,7 @@ import {
   getOneExample,
   addPost,
   deletePost,
+  updatePost,
 } from "../controllers/exampleBirthdays.js";
 
 import auth from "../middleware/auth.js";
@@ -17,5 +18,6 @@ exampleRouter.get("/:id", getOneExample);
 exampleRouter.post("/", createExample);
 exampleRouter.patch("/:id", auth, addPost);
 exampleRouter.delete("/:id/post/:post_id", auth, deletePost);
+exampleRouter.patch("/:id/post/:post_id", updatePost);
 
 export default exampleRouter;
