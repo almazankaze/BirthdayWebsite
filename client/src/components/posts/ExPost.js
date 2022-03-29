@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { useDispatch } from "react-redux";
+import { useGlobalContext } from "../../context";
 import { deleteExPost } from "../../actions/posts";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -10,6 +11,8 @@ import hutaoImg from "../../images/hu-tao.jpg";
 const ExPost = ({ post, birthdayId }) => {
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const { setCurrentPostId } = useGlobalContext();
 
   return (
     <div className="card">
@@ -30,7 +33,10 @@ const ExPost = ({ post, birthdayId }) => {
               <DeleteIcon sx={{ fontSize: 32, color: "red" }} />
             </IconButton>
 
-            <IconButton aria-label="edit">
+            <IconButton
+              aria-label="edit"
+              onClick={() => setCurrentPostId(post._id)}
+            >
               <EditIcon sx={{ fontSize: 32, color: "blue" }} />
             </IconButton>
           </div>

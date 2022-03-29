@@ -5,6 +5,8 @@ import {
   DELETE_POST,
   GET_BIRTHDAY,
   GET_HOMEBIRTHDAY,
+  UPDATE_POST,
+  UPDATE_HOMEPOST,
 } from "../constants/actionTypes";
 
 const birthday = (birthday = null, action) => {
@@ -17,6 +19,9 @@ const birthday = (birthday = null, action) => {
       return { ...birthday, posts: [...birthday.posts, action.payload] };
     case DELETE_POST:
     case DELETE_HOMEPOST:
+      return action.payload;
+    case UPDATE_POST:
+    case UPDATE_HOMEPOST:
       return action.payload;
     default:
       return birthday;

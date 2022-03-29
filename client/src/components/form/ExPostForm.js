@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { addExPost } from "../../actions/posts";
+import React, { useState, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addExPost, updateExPost } from "../../actions/posts";
+import { useGlobalContext } from "../../context";
 
 import "./form.css";
 
@@ -10,22 +11,40 @@ const ExPostForm = ({ birthdayId }) => {
     message: "",
   });
 
+  const { currentPostId, setCurrentPostId } = useGlobalContext();
+
+  const post = useSelector((state) =>
+    currentPostId
+      ? state.birthday.posts.find((p) => p._id === currentPostId)
+      : null
+  );
+
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  useEffect(() => {
+    if (post) setPostData(post);
+  }, [post]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (postData.message.trim() === "") setShowError(true);
     else {
-      dispatch(
-        addExPost(birthdayId, { ...postData, posterName: user?.result?.name })
-      );
+      if (currentPostId) {
+        dispatch(updateExPost(birthdayId, currentPostId, postData));
+      } else {
+        dispatch(
+          addExPost(birthdayId, { ...postData, posterName: user?.result?.name })
+        );
+      }
+
       setShowError(false);
       clear();
     }
   };
   const clear = () => {
+    setCurrentPostId(null);
     setPostData({
       message: "",
     });
@@ -40,7 +59,7 @@ const ExPostForm = ({ birthdayId }) => {
   }
   return (
     <div className="form-container">
-      <h1>Add message</h1>
+      <h1>{currentPostId ? "Edit this post" : "Create a post"}</h1>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div className="input-container">
           <input

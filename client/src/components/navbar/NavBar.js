@@ -39,6 +39,7 @@ const NavBar = () => {
     setUser(null);
     setShowMenu(false);
   };
+
   return (
     <nav className="main-nav">
       <div className="menu-btn">

@@ -26,8 +26,12 @@
 }
 
 .card .card-content .card-text h2 {
-  padding: 10px 0;
   color: #555;
+  padding: 10px 0;
+}
+
+.card .card-content .card-text p {
+  margin-bottom: 0.5rem;
 }
 
 .card-footer {

@@ -22,6 +22,8 @@ export const fetchExBirthday = (id) => API.get(`/homebirthdays/${id}`);
 export const addExPost = (id, post) => API.patch(`/homebirthdays/${id}`, post);
 export const deleteExPost = (id, post_id) =>
   API.delete(`/homebirthdays/${id}/post/${post_id}`);
+export const updateExPost = (id, post_id, updatedPost) =>
+  API.patch(`homebirthdays/${id}/post/${post_id}`, updatedPost);
 
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
