@@ -42,7 +42,11 @@ export const createBirthday = (birthday) => async (dispatch) => {
     const { data } = await api.createBirthday(birthday);
 
     dispatch({ type: CREATE_BIRTHDAY, payload: data });
+
+    return data._id;
   } catch (e) {
     console.log("could not create birthday");
   }
+
+  return null;
 };
