@@ -12,11 +12,12 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
+// user birthday routes
 export const fetchBirthdays = () => API.get("/birthdays");
 export const createBirthday = (newBirthday) =>
-  API.post("/birthdays", newBirthday);
+  API.post("/birthdays/create", newBirthday);
 
-// home routes
+// home birthday routes
 export const fetchExBirthdays = () => API.get("/homebirthdays");
 export const fetchExBirthday = (id) => API.get(`/homebirthdays/${id}`);
 export const addExPost = (id, post) => API.patch(`/homebirthdays/${id}`, post);

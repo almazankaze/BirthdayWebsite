@@ -125,14 +125,16 @@ const NavBar = () => {
             </IconButton>
           </li>
           <li>
-            <IconButton aria-label="add">
-              <AddReactionIcon
-                sx={{
-                  fontSize: 24,
-                  color: "white",
-                }}
-              />
-            </IconButton>
+            <NavLink to="/create">
+              <IconButton aria-label="add">
+                <AddReactionIcon
+                  sx={{
+                    fontSize: 24,
+                    color: "white",
+                  }}
+                />
+              </IconButton>
+            </NavLink>
           </li>
 
           <li className="drop-down">

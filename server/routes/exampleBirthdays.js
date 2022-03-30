@@ -18,6 +18,6 @@ exampleRouter.get("/:id", getOneExample);
 exampleRouter.post("/", createExample);
 exampleRouter.patch("/:id", auth, addPost);
 exampleRouter.delete("/:id/post/:post_id", auth, deletePost);
-exampleRouter.patch("/:id/post/:post_id", updatePost);
+exampleRouter.patch("/:id/post/:post_id", auth, updatePost);
 
 export default exampleRouter;

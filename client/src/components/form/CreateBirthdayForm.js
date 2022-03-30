@@ -1,31 +1,47 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { createBirthday } from "../../actions/birthdays";
 import "./form.css";
 
-const CreateBirthday = () => {
+const CreateBirthdayForm = () => {
   const [showError, setShowError] = useState(false);
   const [birthdayData, setbirthdayData] = useState({
+    creator: "",
     birthdayName: "",
   });
 
   const dispatch = useDispatch();
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
     if (birthdayData.birthdayName.trim() === "") setShowError(true);
     else {
-      dispatch(createBirthday(birthdayData, { ...birthdayData }));
-      setShowError(false);
-      clear();
+      dispatch(
+        createBirthday({
+          ...birthdayData,
+          creator: user?.result?._id,
+        })
+      );
     }
+
+    clear();
   };
   const clear = () => {
+    setShowError(false);
     setbirthdayData({
+      creator: "",
       birthdayName: "",
     });
   };
+  if (!user?.result?.name) {
+    return (
+      <div className="form-container">
+        <h2>Please sign in to start making birthdays.</h2>
+      </div>
+    );
+  }
   return (
     <div className="form-container">
       <h1>Create Birthday Wish</h1>
@@ -53,4 +69,4 @@ const CreateBirthday = () => {
   );
 };
 
-export default CreateBirthday;
+export default CreateBirthdayForm;

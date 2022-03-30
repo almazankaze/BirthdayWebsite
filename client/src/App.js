@@ -10,6 +10,7 @@ import NavBar from "./components/navbar/NavBar";
 import NotFound from "./pages/Errors/NotFound";
 import Auth from "./pages/auth/Auth";
 import ExBirthdayPosts from "./pages/posts/ExBirthdayPosts";
+import CreateBirthday from "./pages/createBirthday/CreateBirthday";
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -20,6 +21,7 @@ const App = () => {
         <Routes>
           <Route path="/" element={<Navigate to="/home" />} />
           <Route path="/home" element={<Home />} />
+          <Route path="/create" element={<CreateBirthday />} />
           <Route path="/auth" element={<Auth />}></Route>
           <Route
             path="/exbirthday/:birthday_id"
