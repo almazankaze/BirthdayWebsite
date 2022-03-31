@@ -11,6 +11,7 @@ import NotFound from "./pages/Errors/NotFound";
 import Auth from "./pages/auth/Auth";
 import ExBirthdayPosts from "./pages/posts/ExBirthdayPosts";
 import CreateBirthday from "./pages/createBirthday/CreateBirthday";
+import BirthdayPosts from "./pages/posts/BirthdayPosts";
 
 const App = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
@@ -26,6 +27,10 @@ const App = () => {
           <Route
             path="/exbirthday/:birthday_id"
             element={<ExBirthdayPosts />}
+          ></Route>
+          <Route
+            path="/birthday/:birthday_id"
+            element={<BirthdayPosts />}
           ></Route>
           <Route path="*" element={<NotFound />}></Route>
         </Routes>

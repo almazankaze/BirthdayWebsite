@@ -1,3 +1,21 @@
 .create-birthday-page {
+  display: flex;
+  flex-direction: column;
   margin-top: 2rem;
+}
+
+.birthday-link-container {
+  text-align: center;
+}
+
+.birthday-link-container .birthday-link {
+  color: #1c8adb;
+}
+
+.hide-birthday-error {
+  display: none;
+}
+
+.birthday-error {
+  display: block;
 }

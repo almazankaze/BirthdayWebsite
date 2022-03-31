@@ -6,9 +6,10 @@ import LoadingCircle from "../loadingCircle/LoadingCircle";
 import "./form.css";
 
 const CreateBirthdayForm = () => {
-  const [showError, setShowError] = useState(false);
+  const [showInputError, setShowInputError] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { birthdayId, setBirthdayId } = useGlobalContext();
+  const [hideError, setHideError] = useState(true);
+  const { setBirthdayId } = useGlobalContext();
   const [birthdayData, setbirthdayData] = useState({
     creator: "",
     birthdayName: "",
@@ -20,7 +21,7 @@ const CreateBirthdayForm = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (birthdayData.birthdayName.trim() === "") setShowError(true);
+    if (birthdayData.birthdayName.trim() === "") setShowInputError(true);
     else {
       setLoading(true);
       dispatch(
@@ -31,17 +32,19 @@ const CreateBirthdayForm = () => {
       ).then((result) => {
         if (result) {
           setBirthdayId(result);
+          setHideError(true);
         } else {
           setBirthdayId(null);
+          setHideError(false);
         }
         setLoading(false);
+
+        clear();
       });
     }
-
-    clear();
   };
   const clear = () => {
-    setShowError(false);
+    setShowInputError(false);
     setbirthdayData({
       creator: "",
       birthdayName: "",
@@ -59,6 +62,9 @@ const CreateBirthdayForm = () => {
   ) : (
     <div className="form-container">
       <h1>Create Birthday Wish</h1>
+      <h3 className={hideError ? "hide-birthday-error" : "birthday-error"}>
+        Something went wrong and birthday was not created, try again.
+      </h3>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
         <div className="input-container">
           <input
@@ -70,7 +76,7 @@ const CreateBirthdayForm = () => {
               setbirthdayData({ ...birthdayData, birthdayName: e.target.value })
             }
           />
-          <span className={showError ? "input-error" : "hide-input-error"}>
+          <span className={showInputError ? "input-error" : "hide-input-error"}>
             Please enter the name of the person
           </span>
         </div>

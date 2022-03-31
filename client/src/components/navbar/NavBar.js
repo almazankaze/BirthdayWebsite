@@ -77,9 +77,9 @@ const NavBar = () => {
             </button>
           </li>
           <li>
-            <button className="mobile-nav-link" type="button">
+            <NavLink to="/create" onClick={() => setShowMenu(false)}>
               Create
-            </button>
+            </NavLink>
           </li>
           <li>
             <button className="mobile-nav-link" type="button">
@@ -106,7 +106,9 @@ const NavBar = () => {
                 Sign Out
               </button>
             ) : (
-              <NavLink to="auth">Sign In</NavLink>
+              <NavLink to="/auth" onClick={() => setShowMenu(false)}>
+                Sign In
+              </NavLink>
             )}
           </li>
         </ul>
@@ -184,7 +186,7 @@ const NavBar = () => {
         </ul>
       ) : (
         <div className="right-nav">
-          <NavLink to="auth">
+          <NavLink to="/auth" onClick={() => setShowMenu(false)}>
             <h3>Sign In</h3>
           </NavLink>
         </div>
