@@ -35,9 +35,9 @@ const NavBar = () => {
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
-    navigate("/auth");
     setUser(null);
     setShowMenu(false);
+    navigate("/auth");
   };
 
   return (
@@ -77,7 +77,11 @@ const NavBar = () => {
             </button>
           </li>
           <li>
-            <NavLink to="/create" onClick={() => setShowMenu(false)}>
+            <NavLink
+              className="mobile-nav-link"
+              to="/create"
+              onClick={() => setShowMenu(false)}
+            >
               Create
             </NavLink>
           </li>
@@ -87,9 +91,13 @@ const NavBar = () => {
             </button>
           </li>
           <li>
-            <button className="mobile-nav-link" type="button">
-              BirthdayWishes
-            </button>
+            <NavLink
+              className="mobile-nav-link"
+              to="/myWishes"
+              onClick={() => setShowMenu(false)}
+            >
+              Birthday Wishes
+            </NavLink>
           </li>
           <li>
             <button className="mobile-nav-link" type="button">
@@ -106,7 +114,11 @@ const NavBar = () => {
                 Sign Out
               </button>
             ) : (
-              <NavLink to="/auth" onClick={() => setShowMenu(false)}>
+              <NavLink
+                className="mobile-nav-link"
+                to="/auth"
+                onClick={() => setShowMenu(false)}
+              >
                 Sign In
               </NavLink>
             )}
@@ -163,9 +175,13 @@ const NavBar = () => {
                   </button>
                 </li>
                 <li>
-                  <button className="nav-link" type="button">
-                    BirthdayWishes
-                  </button>
+                  <NavLink
+                    className="nav-link"
+                    to="/myWishes"
+                    onClick={() => setShowMenu(false)}
+                  >
+                    Birthday Wishes
+                  </NavLink>
                 </li>
                 <li>
                   <button className="nav-link" type="button">

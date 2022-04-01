@@ -3,6 +3,7 @@ import {
   CREATE_BIRTHDAY,
   FETCH_HOMEBIRTHDAYS,
   GET_HOMEBIRTHDAY,
+  GET_BIRTHDAY,
 } from "../constants/actionTypes";
 
 import * as api from "../api/index";
@@ -32,6 +33,16 @@ export const getExBirthday = (id) => async (dispatch) => {
     const { data } = await api.fetchExBirthday(id);
 
     dispatch({ type: GET_HOMEBIRTHDAY, payload: data });
+  } catch (e) {
+    console.log("could not get birthday");
+  }
+};
+
+export const getBirthday = (id) => async (dispatch) => {
+  try {
+    const { data } = await api.fetchBirthday(id);
+
+    dispatch({ type: GET_BIRTHDAY, payload: data });
   } catch (e) {
     console.log("could not get birthday");
   }

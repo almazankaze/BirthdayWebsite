@@ -14,8 +14,14 @@ API.interceptors.request.use((req) => {
 
 // user birthday routes
 export const fetchBirthdays = () => API.get("/birthdays");
+export const fetchBirthday = (id) => API.get(`/birthdays/${id}`);
 export const createBirthday = (newBirthday) =>
   API.post("/birthdays/create", newBirthday);
+export const addPost = (id, post) => API.patch(`/birthdays/${id}`, post);
+export const deletePost = (id, post_id) =>
+  API.delete(`/birthdays/${id}/post/${post_id}`);
+export const updatePost = (id, post_id, updatedPost) =>
+  API.patch(`birthdays/${id}/post/${post_id}`, updatedPost);
 
 // home birthday routes
 export const fetchExBirthdays = () => API.get("/homebirthdays");

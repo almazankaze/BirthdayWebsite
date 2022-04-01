@@ -9,10 +9,6 @@
   align-items: center;
 }
 
-.section-title {
-  font-size: 3em;
-}
-
 .info {
   flex-basis: 40%;
   position: relative;
@@ -156,10 +152,6 @@
 }
 
 @media (max-width: 700px) {
-  .section-title {
-    font-size: 2em;
-  }
-
   .desc {
     font-size: 1em;
   }

@@ -54,6 +54,7 @@ footer p {
 
 .btn {
   text-transform: uppercase;
+  font-weight: bold;
   background: transparent;
   color: #222;
   padding: 0.375em 0.75em;
@@ -73,6 +74,17 @@ footer p {
   background: #222;
 }
 
+.delete {
+  color: #fff;
+  background: red;
+  border: 2px solid red;
+}
+
+.delete:hover {
+  background: transparent;
+  color: red;
+}
+
 .form-btn {
   background: green;
   color: #fff;
@@ -85,8 +97,34 @@ footer p {
   background: green;
 }
 
+.section-title {
+  font-size: 3em;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.signin-link {
+  color: #1c8adb;
+}
+
+.black-text {
+  color: #000;
+}
+
+.btn:hover .black-text {
+  color: #fff;
+}
+
 @media (max-width: 768px) {
   section {
     padding: 7em 0;
+  }
+}
+
+@media (max-width: 700px) {
+  .section-title {
+    font-size: 2em;
   }
 }
