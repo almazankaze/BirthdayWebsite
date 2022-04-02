@@ -1,4 +1,8 @@
-import { FETCH_BIRTHDAYS, CREATE_BIRTHDAY } from "../constants/actionTypes";
+import {
+  FETCH_BIRTHDAYS,
+  CREATE_BIRTHDAY,
+  DELETE_BIRTHDAY,
+} from "../constants/actionTypes";
 
 const birthdays = (posts = [], action) => {
   switch (action.type) {
@@ -6,6 +10,8 @@ const birthdays = (posts = [], action) => {
       return action.payload;
     case CREATE_BIRTHDAY:
       return [...posts, action.payload];
+    case DELETE_BIRTHDAY:
+      return posts.filter((post) => post._id !== action.payload);
     default:
       return posts;
   }

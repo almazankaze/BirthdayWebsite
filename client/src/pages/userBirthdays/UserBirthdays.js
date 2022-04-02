@@ -13,7 +13,11 @@ const UserBirthdays = () => {
   const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
-    dispatch(getBirthdays());
+    if (user?.result?._id) {
+      dispatch(getBirthdays(user?.result?._id));
+    } else {
+      dispatch(getBirthdays(user?.result?.googleId));
+    }
   }, [dispatch]);
 
   const birthdays = useSelector((state) => state.birthdays);
@@ -38,7 +42,7 @@ const UserBirthdays = () => {
       {!birthdays ? (
         <LoadingCircle />
       ) : (
-        <div>
+        <div className="user-birthdays-container">
           {birthdays.map((birthday) => (
             <Birthday key={birthday._id} birthday={birthday} />
           ))}

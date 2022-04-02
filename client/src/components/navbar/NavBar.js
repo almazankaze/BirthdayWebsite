@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { useGlobalContext } from "../../context";
 import decode from "jwt-decode";
 import IconButton from "@mui/material/IconButton";
 import CelebrationIcon from "@mui/icons-material/Celebration";
@@ -13,6 +14,7 @@ import "./navbar.css";
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const { setBirthdayId } = useGlobalContext();
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -35,6 +37,7 @@ const NavBar = () => {
 
   const logout = () => {
     dispatch({ type: "LOGOUT" });
+    setBirthdayId(null);
     setUser(null);
     setShowMenu(false);
     navigate("/auth");

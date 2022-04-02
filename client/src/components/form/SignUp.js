@@ -3,6 +3,7 @@ import { GoogleLogin } from "react-google-login";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
+import { useGlobalContext } from "../../context";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
 import "./form.css";
 
@@ -19,6 +20,8 @@ const SignUp = () => {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState(initFormState);
 
+  const { setBirthdayId } = useGlobalContext();
+
   const GOOGLE = process.env.REACT_APP_GOOGLE;
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -28,6 +31,7 @@ const SignUp = () => {
 
     if (formData.email.trim() === "") setShowError(true);
     else {
+      setBirthdayId(null);
       setLoading(true);
       if (isSignup) {
         dispatch(signup(formData)).then((success) => {
@@ -74,6 +78,8 @@ const SignUp = () => {
     } catch (e) {
       console.log("fail");
     }
+
+    setBirthdayId(null);
   };
 
   const googleFailure = () => {

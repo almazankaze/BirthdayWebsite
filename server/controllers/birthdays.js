@@ -2,10 +2,14 @@ import mongoose from "mongoose";
 import Birthday from "../models/birthday.js";
 import BirthdayPost from "../models/birthdayPost.js";
 
-// get all birthdays from database
+// get all birthdays made by user only from database
 export const getBirthdays = async (req, res) => {
   try {
-    const birthdays = await Birthday.find();
+    const { id } = req.params;
+
+    const birthdays = await Birthday.find({
+      creator: { $in: [id] },
+    });
 
     res.status(200).json(birthdays);
   } catch (e) {
@@ -17,7 +21,7 @@ export const getBirthdays = async (req, res) => {
 export const createBirthday = async (req, res) => {
   const birthdayInfo = req.body;
 
-  const newBirthday = new Birthday(birthdayInfo);
+  const newBirthday = new Birthday({ ...birthdayInfo, creator: req.userId });
 
   try {
     await newBirthday.save();
@@ -37,6 +41,21 @@ export const getBirthday = async (req, res) => {
   try {
     const birthday = await Birthday.findById(id);
     res.status(200).json(birthday);
+  } catch (e) {
+    res.status(404).json({ message: e.message });
+  }
+};
+
+// remove one birthday from database
+export const removeBirthday = async (req, res) => {
+  const { id } = req.params;
+
+  if (!mongoose.Types.ObjectId.isValid(id))
+    return res.status(404).send("No birthday with that id exists");
+  try {
+    await Birthday.findByIdAndRemove(id);
+
+    res.json({ message: "Post was deleted successfully" });
   } catch (e) {
     res.status(404).json({ message: e.message });
   }

@@ -1,21 +1,36 @@
 import React from "react";
+import { useDispatch } from "react-redux";
+import { deleteBirthday } from "../../actions/birthdays";
+import { useGlobalContext } from "../../context";
 import { NavLink } from "react-router-dom";
 import "./birthday.css";
 
 const Birthday = ({ birthday }) => {
+  const dispatch = useDispatch();
+  const { birthdayId, setBirthdayId } = useGlobalContext();
+
+  const handleButton = () => {
+    if (birthdayId === birthday._id) {
+      setBirthdayId(null);
+    }
+    dispatch(deleteBirthday(birthday._id));
+  };
+
   return (
     <div className="user-birthday">
       <h2>{birthday.birthdayName}</h2>
 
-      <button type="button" className="btn">
-        <NavLink className="black-text" to={`/birthday/${birthday._id}`}>
-          Link
-        </NavLink>
-      </button>
+      <div className="user-birthday-buttons">
+        <button type="button" className="btn">
+          <NavLink className="black-text" to={`/birthday/${birthday._id}`}>
+            Link
+          </NavLink>
+        </button>
 
-      <button type="button" className="btn delete">
-        Remove
-      </button>
+        <button type="button" className="btn delete" onClick={handleButton}>
+          Remove
+        </button>
+      </div>
     </div>
   );
 };

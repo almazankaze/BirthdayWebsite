@@ -6,6 +6,7 @@ import "./createBirthday.css";
 
 const CreateBirthday = () => {
   const { birthdayId } = useGlobalContext();
+
   return (
     <div className="create-birthday-page">
       <CreateBirthdayForm />

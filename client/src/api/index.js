@@ -13,8 +13,9 @@ API.interceptors.request.use((req) => {
 });
 
 // user birthday routes
-export const fetchBirthdays = () => API.get("/birthdays");
-export const fetchBirthday = (id) => API.get(`/birthdays/${id}`);
+export const fetchBirthdays = (creator) => API.get(`/birthdays/${creator}`);
+export const fetchBirthday = (id) => API.get(`/birthdays/wish/${id}`);
+export const removeBirthday = (id) => API.delete(`/birthdays/wish/${id}`);
 export const createBirthday = (newBirthday) =>
   API.post("/birthdays/create", newBirthday);
 export const addPost = (id, post) => API.patch(`/birthdays/${id}`, post);
