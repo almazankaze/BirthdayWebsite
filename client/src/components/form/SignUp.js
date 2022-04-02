@@ -4,21 +4,18 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { signin, signup } from "../../actions/auth";
 import { useGlobalContext } from "../../context";
+import formUtil from "../../utilities/formUtil";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
 import "./form.css";
-
-const initFormState = {
-  email: "",
-  name: "",
-  password: "",
-  confirmPassword: "",
-};
+import FormErrors from "./FormErrors";
 
 const SignUp = () => {
   const [showError, setShowError] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [formData, setFormData] = useState(initFormState);
+  const [formErrors, setFormErrors] = useState(
+    formUtil.formDefaults.formErrors
+  );
 
   const { setBirthdayId } = useGlobalContext();
 
@@ -29,13 +26,14 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (formData.email.trim() === "") setShowError(true);
-    else {
-      setBirthdayId(null);
-      setLoading(true);
-      if (isSignup) {
-        dispatch(signup(formData)).then((success) => {
-          setLoading(false);
+    setBirthdayId(null);
+    if (isSignup) {
+      formUtil.checkPasswords();
+
+      if (formUtil.signUpvalidForm()) {
+        setLoading(true);
+        dispatch(signup(formUtil.formVariables.formValues)).then((success) => {
+          clear();
           if (success) {
             navigate("/");
           } else {
@@ -43,21 +41,31 @@ const SignUp = () => {
           }
         });
       } else {
-        dispatch(signin(formData)).then((success) => {
-          setLoading(false);
+        setFormErrors({ ...formUtil.formVariables.formErrors });
+        setShowError(true);
+      }
+    } else {
+      if (formUtil.signInvalidForm()) {
+        setLoading(true);
+        dispatch(signin(formUtil.formVariables.formValues)).then((success) => {
+          clear();
           if (success) {
             navigate("/");
           } else {
             console.log("error");
           }
         });
+      } else {
+        setFormErrors({ ...formUtil.formVariables.formErrors });
+        setShowError(true);
       }
-      setShowError(false);
-      clear();
     }
   };
   const clear = () => {
-    setFormData(initFormState);
+    setLoading(false);
+    setShowError(false);
+    formUtil.clear();
+    setFormErrors({ ...formUtil.formVariables.formErrors });
   };
 
   const switchMode = () => {
@@ -65,7 +73,8 @@ const SignUp = () => {
   };
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    formUtil.setValue(e.target.name, e.target.value);
+    formUtil.validateField(e.target.name, e.target.value);
   };
 
   const googleSuccess = async (res) => {
@@ -73,6 +82,7 @@ const SignUp = () => {
     const token = res?.tokenId;
 
     try {
+      clear();
       dispatch({ type: "AUTH", data: { result, token } });
       navigate("/");
     } catch (e) {
@@ -88,105 +98,96 @@ const SignUp = () => {
   return loading ? (
     <LoadingCircle />
   ) : (
-    <div className="form-container">
-      <h1>{isSignup ? "Sign Up" : "Sign In"}</h1>
-      <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <div className="input-container">
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            className="input-box"
-            autoFocus
-            onChange={handleChange}
-          />
-          <span className={showError ? "input-error" : "hide-input-error"}>
-            Please enter an email
-          </span>
-        </div>
+    <div>
+      <FormErrors show={showError} formErrors={formErrors} />
+      <div className="form-container">
+        <h1>{isSignup ? "Sign Up" : "Sign In"}</h1>
+        <form autoComplete="off" noValidate onSubmit={handleSubmit}>
+          <div className="input-container">
+            <input
+              type="email"
+              name="email"
+              placeholder="Email"
+              className="input-box"
+              autoFocus
+              onChange={handleChange}
+            />
+          </div>
 
-        {isSignup && (
-          <>
-            <div className="input-container">
-              <input
-                type="text"
-                name="name"
-                placeholder="Name to display"
-                className="input-box"
-                onChange={handleChange}
-              />
-              <span className={showError ? "input-error" : "hide-input-error"}>
-                Please enter a name to display
-              </span>
-            </div>
-          </>
-        )}
-
-        <div className="input-container">
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            className="input-box"
-            onChange={handleChange}
-          />
-          <span className={showError ? "input-error" : "hide-input-error"}>
-            Please enter a password
-          </span>
-        </div>
-
-        {isSignup && (
-          <>
-            <div className="input-container">
-              <input
-                type="password"
-                name="confirmPassword"
-                placeholder="Repeat password"
-                className="input-box"
-                onChange={handleChange}
-              />
-              <span className={showError ? "input-error" : "hide-input-error"}>
-                Passwords should match
-              </span>
-            </div>
-          </>
-        )}
-
-        <button
-          type="submit"
-          className="signup-form-btn signup-btn"
-          onClick={handleSubmit}
-        >
-          {isSignup ? "Sign Up" : "Sign In"}
-        </button>
-        <hr className="form-divider" />
-        <p className="or">OR</p>
-
-        <GoogleLogin
-          clientId={GOOGLE}
-          render={(renderProps) => (
-            <button
-              type="button"
-              className="signup-form-btn social-btn"
-              onClick={renderProps.onClick}
-              disabled={renderProps.disabled}
-            >
-              Login with Google
-            </button>
+          {isSignup && (
+            <>
+              <div className="input-container">
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Name to display"
+                  className="input-box"
+                  onChange={handleChange}
+                />
+              </div>
+            </>
           )}
-          onSuccess={googleSuccess}
-          onFailure={googleFailure}
-          cookiePolicy="single_host_origin"
-        />
 
-        <p className="question">
-          {isSignup ? "Already have an account? " : "Don't have an account? "}
+          <div className="input-container">
+            <input
+              type="password"
+              name="password"
+              placeholder="Password"
+              className="input-box"
+              onChange={handleChange}
+            />
+          </div>
 
-          <button type="button" onClick={switchMode} className="form-link">
-            {isSignup ? "Sign In" : "Sign Up"}
+          {isSignup && (
+            <>
+              <div className="input-container">
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Repeat password"
+                  className="input-box"
+                  onChange={handleChange}
+                />
+              </div>
+            </>
+          )}
+
+          <button
+            type="submit"
+            className="signup-form-btn signup-btn"
+            onClick={handleSubmit}
+          >
+            {isSignup ? "Sign Up" : "Sign In"}
           </button>
-        </p>
-      </form>
+          <hr className="form-divider" />
+          <p className="or">OR</p>
+
+          <GoogleLogin
+            clientId={GOOGLE}
+            render={(renderProps) => (
+              <button
+                type="button"
+                className="signup-form-btn social-btn"
+                onClick={renderProps.onClick}
+                disabled={renderProps.disabled}
+              >
+                Login with Google
+              </button>
+            )}
+            onSuccess={googleSuccess}
+            onFailure={googleFailure}
+            cookiePolicy="single_host_origin"
+          />
+
+          <p className="question">
+            {isSignup ? "Already have an account? " : "Don't have an account? "}
+
+            <button type="button" onClick={switchMode} className="form-link">
+              {isSignup ? "Sign In" : "Sign Up"}
+            </button>
+          </p>
+        </form>
+      </div>
     </div>
   );
 };
