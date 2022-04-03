@@ -14,6 +14,16 @@ const Post = ({ post, birthdayId }) => {
 
   const { setCurrentPostId } = useGlobalContext();
 
+  const decodeFileBase64 = (base64String) => {
+    return decodeURIComponent("hello");
+  };
+
+  const decodeBase64 = decodeFileBase64(
+    post.selectedFile.substring(post.selectedFile.indexOf(",") + 1)
+  );
+
+  console.log(decodeBase64);
+
   return (
     <div className="card">
       <div className="card-content">
