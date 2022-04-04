@@ -58,12 +58,12 @@ const formUtil = {
           : " is invalid";
         break;
       case "password":
-        this.formVariables.passwordValid = isNotEmpty;
+        this.formVariables.passwordValid = value.length >= 8;
 
         this.formVariables.formErrors.password = this.formVariables
           .passwordValid
           ? ""
-          : " field can't be empty";
+          : " needs to be at least 8 characters";
         break;
       case "confirmPassword":
         this.formVariables.confirmPasswordValid = isNotEmpty;
@@ -79,6 +79,7 @@ const formUtil = {
   },
 
   checkPasswords: function () {
+    if (this.formVariables.formValues.password.length <= 7) return;
     const match =
       this.formVariables.formValues.confirmPassword ===
       this.formVariables.formValues.password;
@@ -91,7 +92,7 @@ const formUtil = {
     } else {
       this.formVariables.passwordValid = false;
       this.formVariables.confirmPasswordValid = false;
-      this.formVariables.formErrors.password = "s do not match";
+      this.formVariables.formErrors.password = " do not match";
       this.formVariables.formErrors.confirmPassword = "";
     }
   },
@@ -106,7 +107,7 @@ const formUtil = {
   },
 
   signInvalidForm: function () {
-    return this.formVariables.emailValid && this.formVariables.passwordValid;
+    return this.formVariables.emailValid;
   },
 };
 

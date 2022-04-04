@@ -28,6 +28,7 @@
 .card .card-content .card-text h2 {
   color: #555;
   padding: 10px 0;
+  text-transform: capitalize;
 }
 
 .card .card-content .card-text p {

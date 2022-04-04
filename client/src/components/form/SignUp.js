@@ -12,6 +12,7 @@ import FormErrors from "./FormErrors";
 const SignUp = () => {
   const [showError, setShowError] = useState(false);
   const [isSignup, setIsSignUp] = useState(false);
+  const [loginFail, setLoginFail] = useState(false);
   const [loading, setLoading] = useState(false);
   const [formErrors, setFormErrors] = useState(
     formUtil.formDefaults.formErrors
@@ -26,6 +27,7 @@ const SignUp = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
+    setLoginFail(false);
     setBirthdayId(null);
     if (isSignup) {
       formUtil.checkPasswords();
@@ -37,7 +39,7 @@ const SignUp = () => {
           if (success) {
             navigate("/");
           } else {
-            console.log("error");
+            setLoginFail(true);
           }
         });
       } else {
@@ -52,7 +54,7 @@ const SignUp = () => {
           if (success) {
             navigate("/");
           } else {
-            console.log("error");
+            setLoginFail(true);
           }
         });
       } else {
@@ -70,6 +72,7 @@ const SignUp = () => {
 
   const switchMode = () => {
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
+    setLoginFail(false);
   };
 
   const handleChange = (e) => {
@@ -151,6 +154,11 @@ const SignUp = () => {
               </div>
             </>
           )}
+
+          <span className={loginFail ? "input-error" : "hide-input-error"}>
+            Something went wrong and could not{" "}
+            {isSignup ? "sign up" : "sign in"}, try again
+          </span>
 
           <button
             type="submit"

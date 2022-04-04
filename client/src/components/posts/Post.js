@@ -6,7 +6,6 @@ import { deletePost } from "../../actions/posts";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import hutaoImg from "../../images/hu-tao.jpg";
 
 const Post = ({ post, birthdayId }) => {
   const dispatch = useDispatch();
@@ -14,20 +13,10 @@ const Post = ({ post, birthdayId }) => {
 
   const { setCurrentPostId } = useGlobalContext();
 
-  const decodeFileBase64 = (base64String) => {
-    return decodeURIComponent("hello");
-  };
-
-  const decodeBase64 = decodeFileBase64(
-    post.selectedFile.substring(post.selectedFile.indexOf(",") + 1)
-  );
-
-  console.log(decodeBase64);
-
   return (
     <div className="card">
       <div className="card-content">
-        <img src={hutaoImg} alt="card pic" />
+        <img src={post.selectedFile} alt="card pic" />
         <div className="card-text">
           <h2>{`From ${post.posterName}`}</h2>
           <p>{post.message}</p>
