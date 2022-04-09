@@ -5,9 +5,9 @@ import { useGlobalContext } from "../../context";
 
 import "./form.css";
 
-const PostForm = ({ birthdayId }) => {
+const PostForm = ({ birthdayId, setIsLoading }) => {
   const [showError, setShowError] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+
   const [encodedFile, setEncodedFile] = useState("");
   const [postData, setPostData] = useState({
     message: "",
@@ -59,12 +59,27 @@ const PostForm = ({ birthdayId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    setIsLoading(true);
-
     if (postData.message.trim() === "") setShowError(true);
     else {
+      setShowError(false);
+      setIsLoading(true);
       if (currentPostId) {
-        dispatch(updatePost(birthdayId, currentPostId, postData));
+        if (post.selectedFile && encodedFile === "") {
+          dispatch(updatePost(birthdayId, currentPostId, postData)).then(
+            (success) => {
+              setIsLoading(false);
+            }
+          );
+        } else {
+          dispatch(
+            updatePost(birthdayId, currentPostId, {
+              ...postData,
+              selectedFile: encodedFile,
+            })
+          ).then((success) => {
+            setIsLoading(false);
+          });
+        }
       } else {
         dispatch(
           addPost(birthdayId, {
@@ -72,15 +87,15 @@ const PostForm = ({ birthdayId }) => {
             posterName: user?.result?.name,
             selectedFile: encodedFile,
           })
-        );
+        ).then((success) => {
+          setIsLoading(false);
+        });
       }
+      clear();
     }
-    clear();
   };
   const clear = () => {
     setCurrentPostId(null);
-    setIsLoading(false);
-    setShowError(false);
     setEncodedFile("");
     setSelectedFile([]);
     reset();
@@ -97,9 +112,7 @@ const PostForm = ({ birthdayId }) => {
     );
   }
 
-  return isLoading ? (
-    <div></div>
-  ) : (
+  return (
     <div className="form-container">
       <h1>{currentPostId ? "Edit this post" : "Create a post"}</h1>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
@@ -117,7 +130,10 @@ const PostForm = ({ birthdayId }) => {
             Please enter a message to proceed
           </span>
         </div>
-        <div>
+        <div className="input-file-container">
+          <label htmlFor="input-file" className="input-label">
+            {currentPostId ? "Replacement Image" : "Add Image"}
+          </label>
           <input
             type="file"
             id="input-file"

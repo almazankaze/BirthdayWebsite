@@ -6,7 +6,7 @@ import { deleteExPost } from "../../actions/posts";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
-import hutaoImg from "../../images/hu-tao.jpg";
+import DefaultImg from "../../images/default-birthday.jpg";
 
 const ExPost = ({ post, birthdayId }) => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const ExPost = ({ post, birthdayId }) => {
   return (
     <div className="card">
       <div className="card-content">
-        <img src={hutaoImg} alt="card pic" />
+        <img src={post.selectedFile || DefaultImg} alt="card pic" />
         <div className="card-text">
           <h2>{`From ${post.posterName}`}</h2>
           <p>{post.message}</p>

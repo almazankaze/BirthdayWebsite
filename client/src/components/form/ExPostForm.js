@@ -1,15 +1,45 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { addExPost, updateExPost } from "../../actions/posts";
 import { useGlobalContext } from "../../context";
-
 import "./form.css";
 
-const ExPostForm = ({ birthdayId }) => {
+const ExPostForm = ({ birthdayId, setIsLoading }) => {
   const [showError, setShowError] = useState(false);
+
+  const [encodedFile, setEncodedFile] = useState("");
   const [postData, setPostData] = useState({
     message: "",
   });
+
+  const [selectedFile, setSelectedFile] = useState([]);
+
+  const ref = useRef();
+
+  const reset = () => {
+    ref.current.value = "";
+  };
+
+  const onFileChange = (e) => {
+    setSelectedFile(e.target.files);
+  };
+
+  const encodeFileBase64 = (file) => {
+    let reader = new FileReader();
+
+    if (file) {
+      reader.readAsDataURL(file);
+      reader.onload = () => {
+        let Base64 = reader.result;
+        setEncodedFile(Base64);
+      };
+      reader.onerror = function (e) {
+        console.log("error");
+      };
+    }
+  };
+
+  encodeFileBase64(selectedFile[0]);
 
   const { currentPostId, setCurrentPostId } = useGlobalContext();
 
@@ -29,22 +59,47 @@ const ExPostForm = ({ birthdayId }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (postData.message.trim() === "") setShowError(true);
-    else {
+    if (postData.message.trim() === "") {
+      setShowError(true);
+    } else {
+      setShowError(false);
+      setIsLoading(true);
       if (currentPostId) {
-        dispatch(updateExPost(birthdayId, currentPostId, postData));
+        if (post.selectedFile && encodedFile === "") {
+          dispatch(updateExPost(birthdayId, currentPostId, postData)).then(
+            (success) => {
+              setIsLoading(false);
+            }
+          );
+        } else {
+          dispatch(
+            updateExPost(birthdayId, currentPostId, {
+              ...postData,
+              selectedFile: encodedFile,
+            })
+          ).then((success) => {
+            setIsLoading(false);
+          });
+        }
       } else {
         dispatch(
-          addExPost(birthdayId, { ...postData, posterName: user?.result?.name })
-        );
+          addExPost(birthdayId, {
+            ...postData,
+            posterName: user?.result?.name,
+            selectedFile: encodedFile,
+          })
+        ).then((success) => {
+          setIsLoading(false);
+        });
       }
-
-      setShowError(false);
       clear();
     }
   };
   const clear = () => {
     setCurrentPostId(null);
+    setEncodedFile("");
+    setSelectedFile([]);
+    reset();
     setPostData({
       message: "",
     });
@@ -74,6 +129,18 @@ const ExPostForm = ({ birthdayId }) => {
           <span className={showError ? "input-error" : "hide-input-error"}>
             Please enter a message to proceed
           </span>
+        </div>
+        <div className="input-file-container">
+          <label htmlFor="input-file" className="input-label">
+            {currentPostId ? "Replacement Image" : "Add Image"}
+          </label>
+          <input
+            type="file"
+            id="input-file"
+            accept="image/*"
+            ref={ref}
+            onChange={onFileChange}
+          />
         </div>
 
         <button className="btn form-btn" type="submit">

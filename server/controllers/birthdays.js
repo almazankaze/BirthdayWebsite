@@ -120,7 +120,12 @@ export const updatePost = async (req, res) => {
   try {
     const updatedBirthday = await Birthday.findOneAndUpdate(
       { _id: id, "posts._id": post_id },
-      { $set: { "posts.$.message": updatedPost.message } },
+      {
+        $set: {
+          "posts.$.message": updatedPost.message,
+          "posts.$.selectedFile": updatedPost.selectedFile,
+        },
+      },
       { new: true }
     );
 

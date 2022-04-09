@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -10,6 +10,7 @@ import "./posts.css";
 
 const BirthdayPosts = () => {
   const dispatch = useDispatch();
+  const [isLoading, setIsLoading] = useState(false);
   const { birthday_id } = useParams();
 
   useEffect(() => {
@@ -17,12 +18,12 @@ const BirthdayPosts = () => {
   }, [dispatch, birthday_id]);
 
   const birthday = useSelector((state) => state.birthday);
-  return !birthday ? (
+  return !birthday || isLoading ? (
     <LoadingCircle />
   ) : (
     <div className="birthday-posts">
       <section className="form-title-container">
-        <PostForm birthdayId={birthday_id} />
+        <PostForm birthdayId={birthday_id} setIsLoading={setIsLoading} />
         <h1 className="birthday-title">
           Happy Birthday {birthday.birthdayName}
         </h1>
