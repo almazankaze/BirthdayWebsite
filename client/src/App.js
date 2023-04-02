@@ -1,10 +1,5 @@
 import React, { useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-  Navigate,
-} from "react-router-dom";
+import { Route, Routes, Navigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setCurrentUser } from "./actions/auth";
 import {
@@ -16,9 +11,11 @@ import Home from "./pages/Home";
 import NavBar from "./components/navbar/NavBar";
 import NotFound from "./pages/Errors/NotFound";
 import Auth from "./pages/auth/Auth";
+import NavigateAuth from "./pages/auth/NavigateAuth";
 import CreateBirthday from "./pages/createBirthday/CreateBirthday";
 import BirthdayPosts from "./pages/posts/BirthdayPosts";
 import UserBirthdays from "./pages/userBirthdays/UserBirthdays";
+import ScrollToTop from "./components/scroll/ScrollToTop";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -37,21 +34,29 @@ const App = () => {
 
   return (
     <div>
-      <Router>
-        <NavBar />
+      <ScrollToTop>
         <Routes>
-          <Route path="/" element={<Navigate to="/home" />} />
-          <Route path="/home" element={<Home />} />
-          <Route path="/create" element={<CreateBirthday />} />
-          <Route path="/auth" element={<Auth />}></Route>
-          <Route
-            path="/birthday/:birthday_id"
-            element={<BirthdayPosts />}
-          ></Route>
-          <Route path="/myWishes" element={<UserBirthdays />}></Route>
-          <Route path="*" element={<NotFound />}></Route>
+          <Route path="/" element={<NavBar />}>
+            <Route index element={<Home />} />
+            <Route
+              path="auth"
+              element={
+                <NavigateAuth>
+                  <Auth />
+                </NavigateAuth>
+              }
+            />
+            <Route path="create" element={<CreateBirthday />} />
+            <Route
+              path="birthday/:birthday_id"
+              element={<BirthdayPosts />}
+            ></Route>
+            <Route path="myWishes" element={<UserBirthdays />}></Route>
+            <Route path="*" element={<Navigate to="/notfound" />}></Route>
+            <Route path="notfound" element={<NotFound />}></Route>
+          </Route>
         </Routes>
-      </Router>
+      </ScrollToTop>
     </div>
   );
 };

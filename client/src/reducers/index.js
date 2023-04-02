@@ -8,5 +8,5 @@ export const reducers = combineReducers({
   homeBirthdays,
   birthdays,
   birthday,
-  userReducer,
+  user: userReducer,
 });

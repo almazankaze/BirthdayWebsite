@@ -1,4 +1,3 @@
-import React from "react";
 import AuthForm from "../../components/form/auth/AuthForm";
 
 import "./auth.css";

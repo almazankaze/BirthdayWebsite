@@ -1,0 +1,60 @@
+.wish-form-container {
+  width: 420px;
+  box-shadow: 0 0 3px 0 rgba(0, 0, 0, 0.3);
+  background: #fff;
+  padding: 1.25rem;
+  margin: 8px auto 0;
+  text-align: center;
+}
+
+.wish-form-container h1 {
+  color: #1c8adb;
+  margin-bottom: 1.875rem;
+}
+
+.input-container {
+  margin: 1.25rem 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.input-box {
+  border-radius: 1.25rem;
+  padding: 0.625rem;
+  border: 1px solid #999;
+  outline: none;
+}
+
+.wish-input-error {
+  color: hsl(0, 100%, 74%);
+  margin-top: 0.5rem;
+}
+
+.hide-wish-input-error {
+  display: none;
+}
+
+.wish-btn {
+  background: rgb(8, 104, 8);
+  color: #fff;
+  border-color: transparent;
+  margin-bottom: 0;
+}
+
+.wish-btn:hover {
+  color: #fff;
+  background: rgb(2, 173, 2);
+}
+
+@media (max-width: 650px) {
+  .wish-form-container {
+    width: 320px;
+  }
+}
+
+@media (max-width: 380px) {
+  .wish-form-container {
+    width: 280px;
+  }
+}

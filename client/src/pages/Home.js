@@ -1,9 +1,13 @@
 import heroImg from "../images/hero-img.png";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../api/user";
 import { NavLink } from "react-router-dom";
 
 import "./home.css";
 
 const Home = () => {
+  const currentUser = useSelector(selectCurrentUser);
+
   return (
     <div className="home">
       <section className="hero-section">
@@ -16,7 +20,7 @@ const Home = () => {
             someone a happy birthday! Send them the link and watch them feel
             special on their special day!
           </p>
-          <NavLink to="/auth">
+          <NavLink to={currentUser ? "/create" : "/auth"}>
             <button className="btn" type="button">
               Start
             </button>

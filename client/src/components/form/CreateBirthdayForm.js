@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../api/user";
 import { useGlobalContext } from "../../context";
 import { createBirthday } from "../../actions/birthdays";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
+
+import "./createBirthday.css";
 
 const CreateBirthdayForm = () => {
   const [showInputError, setShowInputError] = useState(false);
@@ -16,6 +20,8 @@ const CreateBirthdayForm = () => {
 
   const dispatch = useDispatch();
   const user = JSON.parse(localStorage.getItem("profile"));
+
+  const currentUser = useSelector(selectCurrentUser);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -49,9 +55,9 @@ const CreateBirthdayForm = () => {
       birthdayName: "",
     });
   };
-  if (!user?.result?.name) {
+  if (!currentUser) {
     return (
-      <div className="form-container">
+      <div className="wish-form-container">
         <h2>Please sign in to start making birthdays.</h2>
       </div>
     );
@@ -59,7 +65,7 @@ const CreateBirthdayForm = () => {
   return loading ? (
     <LoadingCircle />
   ) : (
-    <div className="form-container">
+    <div className="wish-form-container">
       <h1>Create Birthday Wish</h1>
       <h3 className={hideError ? "hide-birthday-error" : "birthday-error"}>
         Something went wrong and birthday was not created, try again.
@@ -75,12 +81,16 @@ const CreateBirthdayForm = () => {
               setbirthdayData({ ...birthdayData, birthdayName: e.target.value })
             }
           />
-          <span className={showInputError ? "input-error" : "hide-input-error"}>
+          <span
+            className={
+              showInputError ? "wish-input-error" : "hide-wish-input-error"
+            }
+          >
             Please enter the name of the person
           </span>
         </div>
 
-        <button className="btn form-btn" type="submit">
+        <button className="btn wish-btn" type="submit">
           Submit
         </button>
       </form>
