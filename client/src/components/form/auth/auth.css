@@ -1,0 +1,173 @@
+.form-container {
+  width: 520px;
+  background-color: var(--white);
+  padding: 2.5rem 1rem;
+  border: 1px solid var(--gray-400);
+  border-radius: 10px;
+  box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 2rem 0;
+}
+
+.form-container form {
+  width: 320px;
+}
+
+form .form-input {
+  position: relative;
+  border-bottom: 2px solid var(--gray-500);
+  margin: 2rem 0;
+}
+
+.form-input:focus-within {
+}
+
+.form-input input {
+  width: 100%;
+  padding: 0 5px;
+  height: 40px;
+  border: none;
+  background: none;
+  outline: none;
+}
+
+.form-input label {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  color: var(--gray-500);
+  transform: translateY(-50%);
+  pointer-events: none;
+  transition: 0.4s ease-in-out;
+}
+
+.form-input span::after {
+  content: "";
+  display: block;
+  margin: 0.125rem auto 0;
+  position: absolute;
+  top: 38px;
+  left: 0;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  background: #0c75b6;
+  transition: transform 0.3s ease;
+}
+
+.form-input input:focus ~ label,
+.form-input input:valid ~ label {
+  top: -5px;
+  color: #0c75b6;
+  font-size: 0.75rem;
+}
+
+.form-input input:focus ~ span::after,
+.form-input input:valid ~ span::after {
+  transform: scaleX(1);
+}
+
+.form-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 5px 24px;
+}
+
+.remember-check {
+  display: flex;
+  align-items: center;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.remember-check input {
+  margin-right: 0.25rem;
+}
+
+.forgot-password {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #0c75b6;
+}
+
+.form-divider {
+  margin-top: 1.25rem;
+  width: 100%;
+}
+
+.or {
+  background: #fff;
+  width: 1.65rem;
+  margin: -14px auto 10px;
+}
+
+.form-btn {
+  color: #fff;
+  background-color: #1c8adb;
+  width: 100%;
+  padding: 0.625rem;
+  border-radius: 1.25rem;
+  font-size: 15px;
+  margin: 0.625rem 0;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+
+.google-btn {
+  background-color: #21afde;
+}
+
+.form-question {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.813rem;
+  margin: 1.25rem 0 0.625rem;
+}
+
+.form-link {
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  background: none;
+  color: #1c8adb;
+  margin-left: 0.25rem;
+}
+
+.input-error {
+  color: var(--error);
+  font-size: 0.813rem;
+}
+
+.last-error {
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 600px) {
+  .form-container {
+    width: 420px;
+  }
+}
+
+@media (max-width: 400px) {
+  .form-container {
+    width: 100%;
+  }
+
+  .form-container form {
+    width: 280px;
+  }
+}
+
+@media (max-width: 350px) {
+  .form-container {
+    border-radius: 0;
+  }
+
+  .form-container form {
+    width: 250px;
+  }
+}

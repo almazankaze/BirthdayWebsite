@@ -3,7 +3,6 @@ import { useDispatch } from "react-redux";
 import { useGlobalContext } from "../../context";
 import { createBirthday } from "../../actions/birthdays";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
-import "./form.css";
 
 const CreateBirthdayForm = () => {
   const [showInputError, setShowInputError] = useState(false);

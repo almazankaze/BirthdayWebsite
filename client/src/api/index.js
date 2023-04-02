@@ -1,6 +1,9 @@
 import axios from "axios";
 
-const API = axios.create({ baseURL: "http://localhost:5000" });
+const myUrl = "https://birthday-mernjs.herokuapp.com/";
+// const myUrl = "http://localhost:5000"
+
+const API = axios.create({ baseURL: myUrl });
 
 API.interceptors.request.use((req) => {
   if (localStorage.getItem("profile")) {
@@ -33,5 +36,4 @@ export const deleteExPost = (id, post_id) =>
 export const updateExPost = (id, post_id, updatedPost) =>
   API.patch(`homebirthdays/${id}/post/${post_id}`, updatedPost);
 
-export const signIn = (formData) => API.post("/user/signin", formData);
-export const signUp = (formData) => API.post("/user/signup", formData);
+export const selectCurrentUser = (state) => state.user.currentUser;

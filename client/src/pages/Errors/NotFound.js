@@ -1,4 +1,3 @@
-import React from "react";
 import { NavLink } from "react-router-dom";
 import homerImg from "../../images/homer.png";
 import "./errors.css";

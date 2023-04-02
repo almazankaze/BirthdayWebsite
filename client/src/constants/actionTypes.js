@@ -14,5 +14,4 @@ export const CREATE_HOMEPOST = "CREATE_HOMEPOST";
 export const DELETE_HOMEPOST = "DELETE_HOMEPOST";
 export const UPDATE_HOMEPOST = "UDATE_HOMEPOST";
 
-export const AUTH = "AUTH";
-export const LOGOUT = "LOGOUT";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";

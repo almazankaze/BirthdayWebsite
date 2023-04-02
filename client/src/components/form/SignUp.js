@@ -20,7 +20,7 @@ const SignUp = () => {
 
   const { setBirthdayId } = useGlobalContext();
 
-  const GOOGLE = process.env.REACT_APP_GOOGLE;
+  // const GOOGLE = process.env.REACT_APP_GOOGLE;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -171,7 +171,7 @@ const SignUp = () => {
           <p className="or">OR</p>
 
           <GoogleLogin
-            clientId={GOOGLE}
+            clientId="117801210758-3tldbn5p8id4smj9laedpvvcncf6oqob.apps.googleusercontent.com"
             render={(renderProps) => (
               <button
                 type="button"

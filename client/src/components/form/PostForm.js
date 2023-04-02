@@ -3,8 +3,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPost, updatePost } from "../../actions/posts";
 import { useGlobalContext } from "../../context";
 
-import "./form.css";
-
 const PostForm = ({ birthdayId, setIsLoading }) => {
   const [showError, setShowError] = useState(false);
 

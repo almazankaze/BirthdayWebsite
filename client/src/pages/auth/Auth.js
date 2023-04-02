@@ -1,10 +1,11 @@
 import React from "react";
-import SignUp from "../../components/form/SignUp";
+import AuthForm from "../../components/form/auth/AuthForm";
+
 import "./auth.css";
 const Auth = () => {
   return (
     <div className="auth">
-      <SignUp />
+      <AuthForm />
     </div>
   );
 };
