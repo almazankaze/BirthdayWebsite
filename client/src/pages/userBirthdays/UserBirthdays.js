@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../api/user";
 import { getBirthdays } from "../../actions/birthdays";
 import Birthday from "../../components/birthdays/Birthday";
 import LoadingCircle from "../../components/loadingCircle/LoadingCircle";
@@ -9,17 +8,19 @@ import "./userBirthdays.css";
 
 const UserBirthdays = () => {
   const dispatch = useDispatch();
-  const currentUser = useSelector(selectCurrentUser);
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
-    if (currentUser) {
-      dispatch(getBirthdays(currentUser.email));
+    if (user?.result?._id) {
+      dispatch(getBirthdays(user?.result?._id));
+    } else {
+      dispatch(getBirthdays(user?.result?.googleId));
     }
   }, [dispatch]);
 
   const birthdays = useSelector((state) => state.birthdays);
 
-  if (!currentUser) {
+  if (!user) {
     return (
       <div className="wish-form-container">
         <h2>Please sign in to display your birthdays.</h2>

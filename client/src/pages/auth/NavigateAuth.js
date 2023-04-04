@@ -1,11 +1,9 @@
 import { Navigate } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../api/user";
 
 const NavigateAuth = ({ children }) => {
-  const currentUser = useSelector(selectCurrentUser);
+  const user = JSON.parse(localStorage.getItem("profile"));
 
-  return currentUser ? <Navigate to="/" /> : children;
+  return user ? <Navigate to="/" /> : children;
 };
 
 export default NavigateAuth;

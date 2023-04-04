@@ -4,7 +4,6 @@ import BirthdayPost from "../models/birthdayPost.js";
 
 // get all birthdays made by user only from database
 export const getBirthdays = async (req, res) => {
-  console.log(req.params);
   try {
     const { id } = req.params;
 
@@ -22,7 +21,7 @@ export const getBirthdays = async (req, res) => {
 export const createBirthday = async (req, res) => {
   const birthdayInfo = req.body;
 
-  const newBirthday = new Birthday({ ...birthdayInfo });
+  const newBirthday = new Birthday({ ...birthdayInfo, creator: req.userId });
 
   try {
     await newBirthday.save();

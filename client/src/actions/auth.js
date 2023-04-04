@@ -1,4 +1,24 @@
-import { SET_CURRENT_USER } from "../constants/actionTypes";
-import { createAction } from "../utilities/reducer";
+import { AUTH } from "../constants/actionTypes";
 
-export const setCurrentUser = (user) => createAction(SET_CURRENT_USER, user);
+import * as api from "../api/index.js";
+
+export const signin = (formData) => async (dispatch) => {
+  try {
+    const { data } = await api.signIn(formData);
+    dispatch({ type: AUTH, data });
+    return true;
+  } catch (e) {
+    return false;
+  }
+};
+
+export const signup = (formData) => async (dispatch) => {
+  try {
+    const { data } = await api.signUp(formData);
+    dispatch({ type: AUTH, data });
+    return true;
+  } catch (e) {
+    console.log(e);
+    return false;
+  }
+};

@@ -1,13 +1,10 @@
 import { useState } from "react";
+import { GoogleLogin } from "react-google-login";
+import { useDispatch } from "react-redux";
+import { signin, signup } from "../../../actions/auth";
+import { useGlobalContext } from "../../../context";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingCircle from "../../loadingCircle/LoadingCircle";
-
-import {
-  signInWithGooglePopup,
-  signInAuthUser,
-  createAuthUser,
-  createUserDoc,
-} from "../../../utilities/firebase";
 
 import { getEmailFragments } from "../../../utilities/functions/getEmailFragments";
 import { isEmail } from "../../../utilities/functions/isEmail";
@@ -30,6 +27,10 @@ const AuthForm = () => {
   const [otherError, setOtherError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  const { setBirthdayId } = useGlobalContext();
+
+  const GOOGLE = process.env.REACT_APP_GOOGLE;
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const resetFormFields = () => {
@@ -41,10 +42,6 @@ const AuthForm = () => {
     setPasswordError("");
     setConfirmError("");
     setOtherError("");
-  };
-
-  const signInWithGoogle = async () => {
-    await signInWithGooglePopup();
   };
 
   const handleSubmit = async (event) => {
@@ -76,11 +73,7 @@ const AuthForm = () => {
       setLoading(true);
 
       try {
-        const { user } = await createAuthUser(email, password);
-
         const [displayName, domain] = getEmailFragments(email);
-
-        await createUserDoc(user, { displayName });
 
         resetFormFields();
         navigate(0);
@@ -97,8 +90,6 @@ const AuthForm = () => {
     } else {
       setLoading(true);
       try {
-        await signInAuthUser(email, password);
-
         resetFormFields();
         setLoading(false);
       } catch (err) {
@@ -127,6 +118,26 @@ const AuthForm = () => {
     resetFormErrors();
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
   };
+
+  const googleSuccess = async (res) => {
+    const result = res?.profileObj;
+    const token = res?.tokenId;
+
+    try {
+      resetFormFields();
+      dispatch({ type: "AUTH", data: { result, token } });
+      navigate("/");
+    } catch (e) {
+      console.log("fail");
+    }
+
+    setBirthdayId(null);
+  };
+
+  const googleFailure = () => {
+    console.log("fail");
+  };
+
   return loading ? (
     <LoadingCircle />
   ) : (
@@ -200,11 +211,7 @@ const AuthForm = () => {
           <>
             <hr className="form-divider" />
             <p className="or">OR</p>
-            <button
-              type="button"
-              className="form-btn google-btn"
-              onClick={signInWithGoogle}
-            >
+            <button type="button" className="form-btn google-btn">
               Login with Google
             </button>
           </>

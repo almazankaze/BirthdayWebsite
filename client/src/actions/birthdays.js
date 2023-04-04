@@ -1,8 +1,6 @@
 import {
   FETCH_BIRTHDAYS,
   CREATE_BIRTHDAY,
-  FETCH_HOMEBIRTHDAYS,
-  GET_HOMEBIRTHDAY,
   GET_BIRTHDAY,
   DELETE_BIRTHDAY,
 } from "../constants/actionTypes";
@@ -16,26 +14,6 @@ export const getBirthdays = (creator) => async (dispatch) => {
     dispatch({ type: FETCH_BIRTHDAYS, payload: data });
   } catch (e) {
     console.log("could not get birthdays");
-  }
-};
-
-export const getExBirthdays = () => async (dispatch) => {
-  try {
-    const { data } = await api.fetchExBirthdays();
-
-    dispatch({ type: FETCH_HOMEBIRTHDAYS, payload: data });
-  } catch (e) {
-    console.log("could not get birthdays");
-  }
-};
-
-export const getExBirthday = (id) => async (dispatch) => {
-  try {
-    const { data } = await api.fetchExBirthday(id);
-
-    dispatch({ type: GET_HOMEBIRTHDAY, payload: data });
-  } catch (e) {
-    console.log("could not get birthday");
   }
 };
 

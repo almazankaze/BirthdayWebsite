@@ -1,11 +1,5 @@
 import React, { useEffect } from "react";
 import { Route, Routes, Navigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { setCurrentUser } from "./actions/auth";
-import {
-  onAuthStateChangedListener,
-  createUserDoc,
-} from "./utilities/firebase";
 
 import Home from "./pages/Home";
 import NavBar from "./components/navbar/NavBar";
@@ -18,20 +12,6 @@ import UserBirthdays from "./pages/userBirthdays/UserBirthdays";
 import ScrollToTop from "./components/scroll/ScrollToTop";
 
 const App = () => {
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChangedListener((user) => {
-      if (user) {
-        createUserDoc(user);
-      }
-
-      dispatch(setCurrentUser(user));
-    });
-
-    return unsubscribe;
-  }, [dispatch]);
-
   return (
     <div>
       <ScrollToTop>

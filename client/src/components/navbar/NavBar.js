@@ -1,8 +1,8 @@
-import React, { Fragment, useState } from "react";
-import { NavLink, useNavigate, Outlet } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../api/user";
-import { signOutUser } from "../../utilities/firebase";
+import React, { Fragment, useState, useEffect } from "react";
+import { NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { useGlobalContext } from "../../context";
+import decode from "jwt-decode";
 import IconButton from "@mui/material/IconButton";
 import CelebrationIcon from "@mui/icons-material/Celebration";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -13,16 +13,33 @@ import "./navbar.css";
 
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
+  const [user, setUser] = useState(JSON.parse(localStorage.getItem("profile")));
+  const { setBirthdayId } = useGlobalContext();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const currentUser = useSelector(selectCurrentUser);
+  const location = useLocation();
+
+  useEffect(() => {
+    const token = user?.token;
+
+    if (token) {
+      const decodedToken = decode(token);
+
+      if (decodedToken.exp * 1000 < new Date().getTime()) signMeOut();
+    }
+
+    setUser(JSON.parse(localStorage.getItem("profile")));
+  }, [location]);
 
   const toggleMenu = () => {
     setShowMenu(!showMenu);
   };
 
   const signMeOut = async () => {
+    dispatch({ type: "LOGOUT" });
+    setBirthdayId(null);
+    setUser(null);
     setShowMenu(false);
-    await signOutUser();
     navigate("/auth");
   };
 
@@ -30,7 +47,7 @@ const NavBar = () => {
     <Fragment>
       <nav className="main-nav">
         <div className="menu-btn">
-          {currentUser ? (
+          {user?.result ? (
             <IconButton aria-label="home" onClick={toggleMenu}>
               <MenuIcon sx={{ fontSize: 32, color: "white" }} />
             </IconButton>
@@ -55,12 +72,12 @@ const NavBar = () => {
         </div>
 
         <div className={showMenu ? "middle-nav show" : "middle-nav"}>
-          {currentUser ? (
+          {user?.result ? (
             <div className="profile-icon">
-              {currentUser.photoUrl ? (
-                <img src={currentUser.photoUrl} alt={currentUser.displayName} />
+              {user.result.imageUrl ? (
+                <img src={user?.result.imageUrl} alt={user?.result.name} />
               ) : (
-                <h2>{currentUser.displayName}</h2>
+                <h2>{user?.result.name}</h2>
               )}
             </div>
           ) : (
@@ -102,7 +119,7 @@ const NavBar = () => {
               </button>
             </li>
             <li>
-              {currentUser ? (
+              {user?.result ? (
                 <button
                   type="button"
                   className="mobile-nav-link"
@@ -123,7 +140,7 @@ const NavBar = () => {
           </ul>
         </div>
 
-        {currentUser ? (
+        {user?.result ? (
           <ul className="right-nav">
             <li>
               <IconButton aria-label="notices">
@@ -149,12 +166,9 @@ const NavBar = () => {
             </li>
 
             <li className="drop-down">
-              {currentUser.photoUrl ? (
+              {user.result.imageUrl ? (
                 <div className="profile-icon">
-                  <img
-                    src={currentUser.photoUrl}
-                    alt={currentUser.displayName}
-                  />
+                  <img src={user?.result.imageUrl} alt={user?.result.name} />
                 </div>
               ) : (
                 <IconButton aria-label="profile">
@@ -171,7 +185,7 @@ const NavBar = () => {
                 <ul className="sub-menu">
                   <li>
                     <button className="nav-link" type="button">
-                      {currentUser.displayName}
+                      {user?.result.name}
                     </button>
                   </li>
                   <li>

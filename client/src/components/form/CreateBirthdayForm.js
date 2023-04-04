@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-import { selectCurrentUser } from "../../api/user";
 import { useGlobalContext } from "../../context";
 import { createBirthday } from "../../actions/birthdays";
 import LoadingCircle from "../loadingCircle/LoadingCircle";
@@ -20,7 +18,7 @@ const CreateBirthdayForm = () => {
 
   const dispatch = useDispatch();
 
-  const currentUser = useSelector(selectCurrentUser);
+  const user = JSON.parse(localStorage.getItem("profile"));
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -31,7 +29,7 @@ const CreateBirthdayForm = () => {
       dispatch(
         createBirthday({
           ...birthdayData,
-          creator: currentUser.email,
+          creator: user?.result?._id,
         })
       ).then((result) => {
         if (result) {
@@ -54,7 +52,7 @@ const CreateBirthdayForm = () => {
       birthdayName: "",
     });
   };
-  if (!currentUser) {
+  if (!user?.result?.name) {
     return (
       <div className="wish-form-container">
         <h2>Please sign in to start making birthdays.</h2>

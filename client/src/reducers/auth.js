@@ -1,16 +1,17 @@
-import { SET_CURRENT_USER } from "../constants/actionTypes";
+import { AUTH, LOGOUT } from "../constants/actionTypes";
 
-export const USER_INITIAL_STATE = {
-  currentUser: null,
-};
+const authReducer = (state = { authData: null }, action) => {
+  switch (action.type) {
+    case AUTH:
+      localStorage.setItem("profile", JSON.stringify({ ...action?.data }));
+      return { ...state, authData: action.data };
 
-export const userReducer = (state = USER_INITIAL_STATE, action = {}) => {
-  const { type, payload } = action;
-
-  switch (type) {
-    case SET_CURRENT_USER:
-      return { ...state, currentUser: payload };
+    case LOGOUT:
+      localStorage.clear();
+      return { ...state, authData: null };
     default:
       return state;
   }
 };
+
+export default authReducer;

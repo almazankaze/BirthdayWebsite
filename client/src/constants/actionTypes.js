@@ -7,11 +7,5 @@ export const CREATE_POST = "CREATE_POST";
 export const UPDATE_POST = "UPDATE_POST";
 export const DELETE_POST = "DELETE_POST";
 
-// home birthdays
-export const FETCH_HOMEBIRTHDAYS = "FETCH_HOMEBIRTHDAYS";
-export const GET_HOMEBIRTHDAY = "GET_HOMEBIRTHDAY";
-export const CREATE_HOMEPOST = "CREATE_HOMEPOST";
-export const DELETE_HOMEPOST = "DELETE_HOMEPOST";
-export const UPDATE_HOMEPOST = "UDATE_HOMEPOST";
-
-export const SET_CURRENT_USER = "user/SET_CURRENT_USER";
+export const AUTH = "AUTH";
+export const LOGOUT = "LOGOUT";

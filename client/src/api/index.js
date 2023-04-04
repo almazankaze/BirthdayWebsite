@@ -5,6 +5,16 @@ const myUrl = "http://localhost:5000";
 
 const API = axios.create({ baseURL: myUrl });
 
+API.interceptors.request.use((req) => {
+  if (localStorage.getItem("profile")) {
+    req.headers.Authorization = `Bearer ${
+      JSON.parse(localStorage.getItem("profile")).token
+    }`;
+  }
+
+  return req;
+});
+
 // user birthday routes
 export const fetchBirthdays = (creator) => API.get(`/birthdays/${creator}`);
 export const fetchBirthday = (id) => API.get(`/birthdays/wish/${id}`);
@@ -25,3 +35,6 @@ export const deleteExPost = (id, post_id) =>
   API.delete(`/homebirthdays/${id}/post/${post_id}`);
 export const updateExPost = (id, post_id, updatedPost) =>
   API.patch(`homebirthdays/${id}/post/${post_id}`, updatedPost);
+
+export const signIn = (formData) => API.post("/user/signin", formData);
+export const signUp = (formData) => API.post("/user/signup", formData);
