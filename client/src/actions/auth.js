@@ -6,9 +6,9 @@ export const signin = (formData) => async (dispatch) => {
   try {
     const { data } = await api.signIn(formData);
     dispatch({ type: AUTH, data });
-    return true;
+    return 200;
   } catch (e) {
-    return false;
+    return e.request.status;
   }
 };
 
@@ -16,9 +16,8 @@ export const signup = (formData) => async (dispatch) => {
   try {
     const { data } = await api.signUp(formData);
     dispatch({ type: AUTH, data });
-    return true;
+    return 200;
   } catch (e) {
-    console.log(e);
-    return false;
+    return e.request.status;
   }
 };

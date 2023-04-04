@@ -47,6 +47,7 @@ const AuthForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    setBirthdayId(null);
     resetFormErrors();
 
     if (isSignup) {
@@ -72,39 +73,49 @@ const AuthForm = () => {
 
       setLoading(true);
 
-      try {
-        const [displayName, domain] = getEmailFragments(email);
+      const [displayName, domain] = getEmailFragments(email);
 
+      dispatch(signup({ ...formFields, name: displayName })).then((status) => {
         resetFormFields();
-        navigate(0);
-        setLoading(false);
-      } catch (err) {
-        if (err.code === "auth/email-already-in-use") {
+
+        if (status === 200) {
+          navigate(0);
+        } else if (status === 404) {
           setOtherError("User with email already exists");
         } else {
           setOtherError("Something went wrong. Please try again");
         }
 
         setLoading(false);
-      }
+      });
     } else {
-      setLoading(true);
-      try {
-        resetFormFields();
-        setLoading(false);
-      } catch (err) {
-        switch (err.code) {
-          case "auth/wrong-password":
-            setOtherError("Incorrect email or password");
-            break;
-          case "auth/user-not-found":
-            setOtherError("Incorrect email or password");
-            break;
-          default:
-            setOtherError("Something went wrong. Please try again");
-        }
-        setLoading(false);
+      if (!isEmail(email)) {
+        setOtherError("Please enter valid email");
+        return;
       }
+
+      if (formFields.password.trim() === "") {
+        setOtherError("Please enter password");
+        return;
+      }
+
+      setLoading(true);
+
+      dispatch(signin(formFields)).then((status) => {
+        resetFormFields();
+
+        if (status === 200) {
+          navigate(0);
+        } else if (status === 400) {
+          setOtherError("Incorrect email or password");
+        } else if (status === 404) {
+          setOtherError("User not found");
+        } else {
+          setOtherError("Something went wrong. Please try again");
+        }
+
+        setLoading(false);
+      });
     }
   };
 
