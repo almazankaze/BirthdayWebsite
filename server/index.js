@@ -18,6 +18,11 @@ app.use("/birthdays", router);
 app.use("/homebirthdays", exampleRouter);
 app.use("/user", userRoutes);
 
+// comment out when editing
+app.get("/", (req, res) => {
+  res.send("APP RUNNING");
+});
+
 const PORT = process.env.PORT || 5000;
 
 mongoose

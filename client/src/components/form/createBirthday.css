@@ -36,15 +36,15 @@
 }
 
 .wish-btn {
-  background: rgb(8, 104, 8);
-  color: #fff;
-  border-color: transparent;
-  margin-bottom: 0;
+  background: rgb(8, 104, 8) !important;
+  color: #fff !important;
+  border-color: transparent !important;
+  margin-bottom: 0 !important;
 }
 
 .wish-btn:hover {
   color: #fff;
-  background: rgb(2, 173, 2);
+  background: rgb(2, 173, 2) !important;
 }
 
 @media (max-width: 650px) {

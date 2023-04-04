@@ -19,7 +19,6 @@ const CreateBirthdayForm = () => {
   });
 
   const dispatch = useDispatch();
-  const user = JSON.parse(localStorage.getItem("profile"));
 
   const currentUser = useSelector(selectCurrentUser);
 
@@ -32,7 +31,7 @@ const CreateBirthdayForm = () => {
       dispatch(
         createBirthday({
           ...birthdayData,
-          creator: user?.result?._id,
+          creator: currentUser.email,
         })
       ).then((result) => {
         if (result) {

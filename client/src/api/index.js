@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const myUrl = "https://birthday-mernjs.herokuapp.com/";
-// const myUrl = "http://localhost:5000"
+//const myUrl = "https://birthday-mernjs.herokuapp.com/";
+const myUrl = "http://localhost:5000";
 
 const API = axios.create({ baseURL: myUrl });
 

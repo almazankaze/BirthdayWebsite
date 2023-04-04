@@ -1,38 +1,29 @@
 import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import { selectCurrentUser } from "../../api/user";
 import { getBirthdays } from "../../actions/birthdays";
-import { NavLink } from "react-router-dom";
 import Birthday from "../../components/birthdays/Birthday";
 import LoadingCircle from "../../components/loadingCircle/LoadingCircle";
 import "./userBirthdays.css";
 
 const UserBirthdays = () => {
   const dispatch = useDispatch();
-
-  const user = JSON.parse(localStorage.getItem("profile"));
+  const currentUser = useSelector(selectCurrentUser);
 
   useEffect(() => {
-    if (user?.result?._id) {
-      dispatch(getBirthdays(user?.result?._id));
-    } else {
-      dispatch(getBirthdays(user?.result?.googleId));
+    if (currentUser) {
+      dispatch(getBirthdays(currentUser.email));
     }
   }, [dispatch]);
 
   const birthdays = useSelector((state) => state.birthdays);
 
-  if (!user) {
+  if (!currentUser) {
     return (
-      <section className="text-center">
-        <h1 className="section-title">
-          Please{" "}
-          <NavLink className="signin-link" to="/auth">
-            Sign In
-          </NavLink>{" "}
-          to display the birthdays you created.
-        </h1>
-      </section>
+      <div className="wish-form-container">
+        <h2>Please sign in to display your birthdays.</h2>
+      </div>
     );
   }
 
