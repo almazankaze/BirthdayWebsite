@@ -14,6 +14,11 @@ const Post = ({ post, birthdayId }) => {
 
   const { setCurrentPostId } = useGlobalContext();
 
+  const scrollToTop = (id) => {
+    window.scrollTo(0, 0);
+    setCurrentPostId(id);
+  };
+
   return (
     <div className="card">
       <div className="card-content">
@@ -21,24 +26,31 @@ const Post = ({ post, birthdayId }) => {
         <div className="card-text">
           <h2>{`From ${post.posterName}`}</h2>
           <p>{post.message}</p>
-          <p>{moment(post.createdAt).fromNow()}</p>
         </div>
         {(user?.result?.googleId === post?.creator ||
           user?.result?._id === post?.creator) && (
           <div className="card-footer">
-            <IconButton
-              aria-label="delete"
-              onClick={() => dispatch(deletePost(birthdayId, post._id))}
-            >
-              <DeleteIcon sx={{ fontSize: 32, color: "red" }} />
-            </IconButton>
+            <div className="card-footer-content">
+              <p>{moment(post.createdAt).fromNow()}</p>
 
-            <IconButton
-              aria-label="edit"
-              onClick={() => setCurrentPostId(post._id)}
-            >
-              <EditIcon sx={{ fontSize: 32, color: "blue" }} />
-            </IconButton>
+              <div className="card-footer-btns">
+                <IconButton
+                  className="card-icon-btn"
+                  aria-label="edit"
+                  onClick={() => scrollToTop(post._id)}
+                >
+                  <EditIcon sx={{ fontSize: 32, color: "blue" }} />
+                </IconButton>
+
+                <IconButton
+                  className="card-icon-btn"
+                  aria-label="delete"
+                  onClick={() => dispatch(deletePost(birthdayId, post._id))}
+                >
+                  <DeleteIcon sx={{ fontSize: 32, color: "red" }} />
+                </IconButton>
+              </div>
+            </div>
           </div>
         )}
       </div>

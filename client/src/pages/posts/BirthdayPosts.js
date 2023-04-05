@@ -25,7 +25,7 @@ const BirthdayPosts = () => {
       <section className="form-title-container">
         <PostForm birthdayId={birthday_id} setIsLoading={setIsLoading} />
         <h1 className="birthday-title">
-          Happy Birthday {birthday.birthdayName}
+          Happy Birthday {birthday.birthdayName}!
         </h1>
       </section>
       <PostsContainer posts={birthday.posts} birthdayId={birthday_id} />

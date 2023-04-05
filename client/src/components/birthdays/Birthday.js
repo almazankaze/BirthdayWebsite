@@ -23,7 +23,7 @@ const Birthday = ({ birthday }) => {
       <div className="user-birthday-buttons">
         <button type="button" className="btn">
           <NavLink className="black-text" to={`/birthday/${birthday._id}`}>
-            Link
+            View
           </NavLink>
         </button>
 

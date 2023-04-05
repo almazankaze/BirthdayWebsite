@@ -133,9 +133,6 @@ const PostForm = ({ birthdayId, setIsLoading }) => {
           </span>
         </div>
         <div className="input-file-container">
-          <label htmlFor="input-file" className="input-label">
-            {currentPostId ? "Replacement Image" : "Add Image"}
-          </label>
           <input
             type="file"
             id="input-file"
