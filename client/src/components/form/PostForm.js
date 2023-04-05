@@ -3,6 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { addPost, updatePost } from "../../actions/posts";
 import { useGlobalContext } from "../../context";
 
+import "./postForm.css";
+
 const PostForm = ({ birthdayId, setIsLoading }) => {
   const [showError, setShowError] = useState(false);
 
@@ -104,17 +106,17 @@ const PostForm = ({ birthdayId, setIsLoading }) => {
 
   if (!user?.result?.name) {
     return (
-      <div className="form-container">
+      <div className="post-form-container">
         <h2>Please sign in to start posting.</h2>
       </div>
     );
   }
 
   return (
-    <div className="form-container">
+    <div className="post-form-container">
       <h1>{currentPostId ? "Edit this post" : "Create a post"}</h1>
       <form autoComplete="off" noValidate onSubmit={handleSubmit}>
-        <div className="input-container">
+        <div className="post-input-container">
           <input
             type="text"
             placeholder="Message"
@@ -124,7 +126,9 @@ const PostForm = ({ birthdayId, setIsLoading }) => {
               setPostData({ ...postData, message: e.target.value })
             }
           />
-          <span className={showError ? "input-error" : "hide-input-error"}>
+          <span
+            className={showError ? "post-input-error" : "hide-post-input-error"}
+          >
             Please enter a message to proceed
           </span>
         </div>
@@ -141,7 +145,7 @@ const PostForm = ({ birthdayId, setIsLoading }) => {
           />
         </div>
 
-        <button className="btn form-btn" type="submit">
+        <button className="btn post-btn" type="submit">
           Submit
         </button>
       </form>

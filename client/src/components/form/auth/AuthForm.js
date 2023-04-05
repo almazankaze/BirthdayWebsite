@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { GoogleLogin } from "react-google-login";
+import { useGoogleLogin, googleLogout } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import { signin, signup } from "../../../actions/auth";
 import { useGlobalContext } from "../../../context";
 import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 import LoadingCircle from "../../loadingCircle/LoadingCircle";
 
 import { getEmailFragments } from "../../../utilities/functions/getEmailFragments";
@@ -29,7 +30,6 @@ const AuthForm = () => {
 
   const { setBirthdayId } = useGlobalContext();
 
-  const GOOGLE = process.env.REACT_APP_GOOGLE;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -130,24 +130,18 @@ const AuthForm = () => {
     setIsSignUp((prevIsSignUp) => !prevIsSignUp);
   };
 
-  const googleSuccess = async (res) => {
-    const result = res?.profileObj;
-    const token = res?.tokenId;
+  const googleLogin = useGoogleLogin({
+    onSuccess: (res) => loginGoogleUser(res),
+    onError: (e) => console.log("error"),
+  });
 
-    try {
-      resetFormFields();
-      dispatch({ type: "AUTH", data: { result, token } });
-      navigate("/");
-    } catch (e) {
-      console.log("fail");
-    }
+  const loginGoogleUser = (user) => {
+    console.log("success");
 
     setBirthdayId(null);
   };
 
-  const googleFailure = () => {
-    console.log("fail");
-  };
+  //googleLogout();
 
   return loading ? (
     <LoadingCircle />
@@ -222,7 +216,12 @@ const AuthForm = () => {
           <>
             <hr className="form-divider" />
             <p className="or">OR</p>
-            <button type="button" className="form-btn google-btn">
+
+            <button
+              type="button"
+              className="form-btn google-btn"
+              onClick={() => googleLogin()}
+            >
               Login with Google
             </button>
           </>
