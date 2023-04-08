@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from "react";
 import { NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { useGlobalContext } from "../../context";
+import { googleLogout } from "@react-oauth/google";
 import decode from "jwt-decode";
 import IconButton from "@mui/material/IconButton";
 import CelebrationIcon from "@mui/icons-material/Celebration";
@@ -38,6 +39,7 @@ const NavBar = () => {
   const signMeOut = async () => {
     dispatch({ type: "LOGOUT" });
     setBirthdayId(null);
+    googleLogout();
     setUser(null);
     setShowMenu(false);
     navigate("/auth");
@@ -74,8 +76,8 @@ const NavBar = () => {
         <div className={showMenu ? "middle-nav show" : "middle-nav"}>
           {user?.result ? (
             <div className="profile-icon">
-              {user.result.imageUrl ? (
-                <img src={user?.result.imageUrl} alt={user?.result.name} />
+              {user.result.picture ? (
+                <img src={user?.result.picture} alt={user?.result.name} />
               ) : (
                 <h2>{user?.result.name}</h2>
               )}
@@ -146,7 +148,7 @@ const NavBar = () => {
               <IconButton aria-label="notices">
                 <NotificationsIcon
                   sx={{
-                    fontSize: 24,
+                    fontSize: 32,
                     color: "white",
                   }}
                 />
@@ -157,7 +159,7 @@ const NavBar = () => {
                 <IconButton aria-label="add">
                   <AddReactionIcon
                     sx={{
-                      fontSize: 24,
+                      fontSize: 32,
                       color: "white",
                     }}
                   />
@@ -166,15 +168,15 @@ const NavBar = () => {
             </li>
 
             <li className="drop-down">
-              {user.result.imageUrl ? (
+              {user.result.picture ? (
                 <div className="profile-icon">
-                  <img src={user?.result.imageUrl} alt={user?.result.name} />
+                  <img src={user?.result.picture} alt={user?.result.name} />
                 </div>
               ) : (
                 <IconButton aria-label="profile">
                   <AccountCircleIcon
                     sx={{
-                      fontSize: 24,
+                      fontSize: 32,
                       color: "white",
                     }}
                   />

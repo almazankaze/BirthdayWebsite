@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const myUrl = "https://birthday-mernjs.herokuapp.com/";
-//const myUrl = "http://localhost:5000";
+//const myUrl = "https://birthday-mernjs.herokuapp.com/";
+const myUrl = "http://localhost:5000";
 
 const API = axios.create({ baseURL: myUrl });
 
@@ -38,3 +38,5 @@ export const updateExPost = (id, post_id, updatedPost) =>
 
 export const signIn = (formData) => API.post("/user/signin", formData);
 export const signUp = (formData) => API.post("/user/signup", formData);
+
+export const googleSignIn = (token) => API.post("user/google_signin", token);

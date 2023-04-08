@@ -26,6 +26,15 @@
   outline: none;
 }
 
+.birthday-error {
+  color: hsl(0, 100%, 74%);
+  margin-top: 0.5rem;
+}
+
+.hide-birthday-error {
+  display: none;
+}
+
 .wish-input-error {
   color: hsl(0, 100%, 74%);
   margin-top: 0.5rem;

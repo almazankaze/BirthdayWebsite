@@ -59,6 +59,11 @@ a {
   cursor: pointer;
 }
 
+.right-nav {
+  display: flex;
+  align-items: center;
+}
+
 .right-nav li {
   position: relative;
   padding: 0.25rem !important;
@@ -72,8 +77,8 @@ a {
 
 .profile-icon img {
   border-radius: 50%;
-  width: 36px;
-  height: 36px;
+  width: 32px;
+  height: 32px;
 }
 
 .drop-down .sub-menu-box {
