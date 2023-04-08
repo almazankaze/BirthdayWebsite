@@ -34,7 +34,13 @@ export const signin = async (req, res) => {
       { expiresIn: "1h" }
     );
 
-    res.status(200).json({ result: existingUser, token });
+    const result = {
+      email: existingUser.email,
+      name: existingUser.name,
+      _id: existingUser._id,
+    };
+
+    res.status(200).json({ result, token });
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });
   }
@@ -54,15 +60,21 @@ export const signup = async (req, res) => {
 
     const hashedPassword = await bcrypt.hash(password, 12);
 
-    const result = await User.create({
+    const user = await User.create({
       email,
       password: hashedPassword,
       name: name,
     });
 
-    const token = jwt.sign({ email: result.email, id: result._id }, secret, {
+    const token = jwt.sign({ email: user.email, id: user._id }, secret, {
       expiresIn: "1h",
     });
+
+    const result = {
+      email: user.email,
+      name: user.name,
+      _id: user._id,
+    };
 
     res.status(201).json({ result, token });
   } catch (e) {

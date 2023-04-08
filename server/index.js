@@ -19,9 +19,9 @@ app.use("/homebirthdays", exampleRouter);
 app.use("/user", userRoutes);
 
 // comment out when editing
-//app.get("/", (req, res) => {
-//res.send("APP RUNNING");
-//});
+app.get("/", (req, res) => {
+  res.send("APP RUNNING");
+});
 
 const PORT = process.env.PORT || 5000;
 
