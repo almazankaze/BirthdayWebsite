@@ -23,6 +23,11 @@ const Home = () => {
               Start
             </button>
           </NavLink>
+          <NavLink to={"/birthday/64319a41e06a346775163416"}>
+            <button className="btn sample-btn" type="button">
+              Sample
+            </button>
+          </NavLink>
         </div>
         <div className="hero-img-container">
           <img src={heroImg} alt="Birthday celebration"></img>

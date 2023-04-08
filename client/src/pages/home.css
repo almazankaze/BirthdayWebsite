@@ -36,6 +36,16 @@
   width: 90%;
 }
 
+.sample-btn {
+  color: #fff !important;
+  background: #222 !important;
+}
+
+.sample-btn:hover {
+  background: transparent !important;
+  color: #222 !important;
+}
+
 .birthdays-section {
   width: 90%;
   margin: auto;
