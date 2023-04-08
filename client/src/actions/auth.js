@@ -25,18 +25,16 @@ export const signup = (formData) => async (dispatch) => {
 
 export const googlesign = (token) => async (dispatch) => {
   try {
-    const { profile } = await api.googleSignIn(token);
+    const { data } = await api.googleSignIn(token);
 
-    if (profile) {
-      const result = {
-        email: profile.email,
-        name: profile.name,
-        picture: profile.picture,
-        _id: profile.sub,
-      };
-
-      dispatch({ type: "AUTH", data: { result, token: token } });
+    if (data) {
+      dispatch({
+        type: "AUTH",
+        data: { result: data.result, token: token.token },
+      });
       return 200;
+    } else {
+      return 400;
     }
   } catch (e) {
     return 400;

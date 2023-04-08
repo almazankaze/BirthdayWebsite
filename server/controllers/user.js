@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import OAuth2Client from "google-auth-library";
+import { OAuth2Client } from "google-auth-library";
 
 import User from "../models/user.js";
 
@@ -75,27 +75,22 @@ export const googlesign = async (req, res) => {
   const client_id = process.env.GOOGLE_CLIENT;
   const client = new OAuth2Client(client_id);
 
-  const ticket = await client.verifyIdToken({
-    idToken: token,
-    audience: client_id,
-  });
-  // Get the JSON with all the user info
-  const payload = ticket.getPayload();
-
   try {
-    const existingUser = await User.findOne(payload.email);
+    const ticket = await client.verifyIdToken({
+      idToken: token,
+      audience: client_id,
+    });
+    // Get the JSON with all the user info
+    const payload = ticket.getPayload();
 
-    if (!existingUser) {
-      const result = await User.create({
-        email: payload.email,
-        name: payload.name,
-      });
+    const result = {
+      email: payload.email,
+      name: payload.name,
+      picture: payload.picture,
+      _id: payload.sub,
+    };
 
-      res.status(201).json({ result, token });
-      return;
-    } else {
-      res.status(200).json({ result: existingUser, token });
-    }
+    res.status(201).json({ result });
   } catch (e) {
     res.status(500).json({ message: "something went wrong" });
   }

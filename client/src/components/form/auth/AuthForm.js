@@ -2,7 +2,7 @@ import { useState } from "react";
 import { GoogleLogin } from "@react-oauth/google";
 import { useDispatch } from "react-redux";
 import jwt_decode from "jwt-decode";
-import { signin, signup } from "../../../actions/auth";
+import { signin, signup, googlesign } from "../../../actions/auth";
 import { useGlobalContext } from "../../../context";
 import { Link, useNavigate } from "react-router-dom";
 import LoadingCircle from "../../loadingCircle/LoadingCircle";
@@ -131,15 +131,23 @@ const AuthForm = () => {
   };
 
   const loginGoogleUser = async (user) => {
-    const { email, name, picture, sub } = jwt_decode(user.credential);
-    const result = { email, name, picture, _id: sub };
-
     try {
       resetFormErrors();
-      dispatch({ type: "AUTH", data: { result, token: user.credential } });
-      navigate(0);
+
+      setLoading(true);
+
+      dispatch(googlesign({ token: user.credential })).then((status) => {
+        setLoading(false);
+
+        if (status === 200) {
+          navigate(0);
+        } else {
+          setOtherError("Something went wrong. Please try again");
+        }
+      });
     } catch (e) {
-      console.log("fail");
+      setOtherError("Something went wrong. Please try again");
+      setLoading(false);
     }
 
     setBirthdayId(null);
@@ -222,7 +230,7 @@ const AuthForm = () => {
             <GoogleLogin
               onSuccess={loginGoogleUser}
               onError={() => {
-                console.log("Login Failed");
+                setOtherError("Something went wrong. Please try again");
               }}
             />
           </>
