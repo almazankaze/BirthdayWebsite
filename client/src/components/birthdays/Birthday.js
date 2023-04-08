@@ -7,7 +7,7 @@ import "./birthday.css";
 
 const Birthday = ({ birthday }) => {
   const dispatch = useDispatch();
-  const { birthdayId, setBirthdayId } = useGlobalContext();
+  const { birthdayId, setBirthdayId, copyToClipBoard } = useGlobalContext();
 
   const handleButton = () => {
     if (birthdayId === birthday._id) {
@@ -25,6 +25,18 @@ const Birthday = ({ birthday }) => {
           <NavLink className="black-text" to={`/birthday/${birthday._id}`}>
             View
           </NavLink>
+        </button>
+
+        <button
+          type="button"
+          className="btn share"
+          onClick={() =>
+            copyToClipBoard(
+              `${window.location.origin.toString()}/birthday/${birthday._id}`
+            )
+          }
+        >
+          Share
         </button>
 
         <button type="button" className="btn delete" onClick={handleButton}>

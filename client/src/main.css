@@ -92,6 +92,18 @@ footer p {
   color: red;
 }
 
+.share {
+  color: #fff;
+  background: rgb(65, 65, 224);
+  border: 2px solid rgb(65, 65, 224);
+}
+
+.share:hover {
+  background: rgb(105, 105, 231);
+  border: 2px solid rgb(105, 105, 231);
+  color: #fff;
+}
+
 .section-title {
   font-size: 3em;
 }
@@ -110,7 +122,7 @@ footer p {
 
 @media (max-width: 768px) {
   section {
-    padding: 7em 0;
+    padding: 5em 0;
   }
 }
 

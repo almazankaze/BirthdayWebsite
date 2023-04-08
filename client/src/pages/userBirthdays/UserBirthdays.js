@@ -2,21 +2,34 @@ import React, { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { getBirthdays } from "../../actions/birthdays";
+import { useGlobalContext } from "../../context";
 import Birthday from "../../components/birthdays/Birthday";
 import LoadingCircle from "../../components/loadingCircle/LoadingCircle";
 import "./userBirthdays.css";
 
 const UserBirthdays = () => {
   const dispatch = useDispatch();
+  const { copySuccess, setCopySuccess } = useGlobalContext();
   const user = JSON.parse(localStorage.getItem("profile"));
 
   useEffect(() => {
     if (user?.result?._id) {
       dispatch(getBirthdays(user?.result?._id));
-    } else {
-      dispatch(getBirthdays(user?.result?.googleId));
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!copySuccess) return;
+
+    const intervalId = setInterval(() => {
+      setCopySuccess(false);
+    }, 2500);
+
+    return () => {
+      setCopySuccess(false);
+      clearInterval(intervalId);
+    };
+  }, [copySuccess]);
 
   const birthdays = useSelector((state) => state.birthdays);
 
@@ -40,6 +53,10 @@ const UserBirthdays = () => {
           ))}
         </div>
       )}
+
+      <div className={copySuccess ? "copy-success show" : "copy-success"}>
+        Link copied to clipboard
+      </div>
     </section>
   );
 };
