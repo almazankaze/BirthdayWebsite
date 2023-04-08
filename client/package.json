@@ -1,6 +1,5 @@
 {
   "name": "client",
-  "homepage": "https://ja-birthday-mern.com/",
   "version": "0.1.0",
   "private": true,
   "proxy": "http://localhost:5000",
@@ -29,7 +28,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "CI= react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
